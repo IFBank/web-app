@@ -15,7 +15,7 @@ interface MenuItemProps {
 const MenuItem: React.FC<MenuItemProps> = ({nameIcon, selected=false, ... rest}) => {
 	return (
 		<Container selected={selected} { ... rest } >
-			<MaterialIcon name={nameIcon} size={36} color={selected ? "#FEFFFE" : "#d4d5d4"}/>
+			<MaterialIcon name={nameIcon} size={36} color={selected ? "#FEFFFE" : "#FEFFFE80"}/>
 		</Container>
 	);
 }
