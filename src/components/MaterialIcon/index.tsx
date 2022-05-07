@@ -10,6 +10,8 @@ interface MaterialIconProps {
 	size: number;
 };
 
+// TODO: Permitir outros estilos de icones (Outline, filled, rounded, sharp, two tone)
+
 const MaterialIcon: React.FC<MaterialIconProps> = ({name, size, color, ... rest}) => {
 	return (
 		<Container 
