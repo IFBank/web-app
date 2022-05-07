@@ -7,7 +7,7 @@ export const Container = styled.div`
 	position: fixed;
 	
 	height: 100vh;
-	width: 60px;
+	width: 70px;
 
 	padding-top: 24px;
 	padding-bottom: 24px;
@@ -18,7 +18,16 @@ export const Container = styled.div`
 	background: var(--linear-primary);
 `;
 
-export const LogoContainer = styled.div``;
+export const LogoContainer = styled.div`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	img {
+		width: 36px;
+		height: 36px;
+	}
+`;
 
 export const MenuItemContainer = styled.div`
 	justify-content: center;
@@ -34,7 +43,8 @@ export const ExitButtonContainer = styled.div`
 
 	position: absolute;
 	bottom: 24px;
-	left: 12px;
+
+	width: 100%;
 `;
 
 // CUSTOM
