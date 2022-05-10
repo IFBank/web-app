@@ -16,9 +16,7 @@ interface BasePageProps {
 
 const BasePage: React.FC<BasePageProps> = ({children=null, ... rest}) => {
 	return (
-		<Container 	
-			{ ... rest }
-		>
+		<Container >
 			<MenuLateral />
 
 			<Content>
@@ -30,7 +28,7 @@ const BasePage: React.FC<BasePageProps> = ({children=null, ... rest}) => {
 					{/*TODO: Render condicional para o button*/}
 				</HeaderContainer>
 
-				<MainContent>
+				<MainContent { ... rest }>
 					{children}
 				</MainContent>
 			</Content>
