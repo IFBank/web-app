@@ -12,9 +12,18 @@ import {
 
 interface BasePageProps {
 	children?: React.ReactNode;
+	titleHeader: string;
+	subTitleHeader: string;
 };
 
-const BasePage: React.FC<BasePageProps> = ({children=null, ... rest}) => {
+const BasePage: React.FC<BasePageProps> = (
+	{
+		children=null, 
+		titleHeader,
+		subTitleHeader,
+		... rest
+	}
+) => {
 	return (
 		<Container >
 			<MenuLateral />
@@ -22,8 +31,8 @@ const BasePage: React.FC<BasePageProps> = ({children=null, ... rest}) => {
 			<Content>
 				<HeaderContainer>
 					<HeaderTitle 
-						title="Encomendas"
-						subTitle="Encontre aqui os pedidos requisitados pelo nosso aplicativo"
+						title={titleHeader}
+						subTitle={subTitleHeader}
 					/>
 					{/*TODO: Render condicional para o button*/}
 				</HeaderContainer>

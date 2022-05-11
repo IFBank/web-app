@@ -26,5 +26,7 @@ export const HeaderContainer = styled.header`
 `;
 
 export const MainContent = styled.main`
+	padding: 0px 50px;
+	padding-bottom: 38px;
 	flex: 1;
 `;
