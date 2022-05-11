@@ -5,8 +5,8 @@ import {
 } from './styles'
 
 interface HeaderTitleProps {
-	title: string;
-	subTitle: string;
+	title?: string;
+	subTitle?: string;
 };
 
 const HeaderTitle: React.FC<HeaderTitleProps> = ({ title, subTitle, ... rest}) => {
