@@ -13,6 +13,9 @@ interface PedidosPageProps {
 
 const PedidosPage: React.FC<PedidosPageProps> = () => {
 
+	// TODO: Corrigir texto do header 
+	// TODO: Implementar button 
+
 	return (
 		<Container
 			titleHeader="Pedidos" 
