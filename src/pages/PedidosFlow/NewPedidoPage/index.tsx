@@ -10,8 +10,8 @@ interface NewPedidoPageProps {
 const NewPedidoPage: React.FC<NewPedidoPageProps> = () => {
 
 	return (
-		<Container>
-		</Container>
+		<>
+		</>
 	);
 }
 

@@ -10,8 +10,8 @@ interface EstoquePageProps {
 const EstoquePage: React.FC<EstoquePageProps> = () => {
 
 	return (
-		<Container>
-		</Container>
+		<>
+		</>
 	);
 }
 

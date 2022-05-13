@@ -10,8 +10,8 @@ interface EditItemPageProps {
 const EditItemPage: React.FC<EditItemPageProps> = () => {
 
 	return (
-		<Container>
-		</Container>
+		<>
+		</>
 	);
 }
 

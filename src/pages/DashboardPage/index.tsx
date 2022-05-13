@@ -10,8 +10,8 @@ interface DashboardPageProps {
 const DashboardPage: React.FC<DashboardPageProps> = () => {
 
 	return (
-		<Container>
-		</Container>
+		<>
+		</>
 	);
 }
 

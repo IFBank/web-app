@@ -10,8 +10,8 @@ interface BalancoPageProps {
 const BalancoPage: React.FC<BalancoPageProps> = () => {
 
 	return (
-		<Container>
-		</Container>
+		<>
+		</>
 	);
 }
 

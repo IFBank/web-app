@@ -10,8 +10,8 @@ interface NewItemPageProps {
 const NewItemPage: React.FC<NewItemPageProps> = () => {
 
 	return (
-		<Container>
-		</Container>
+		<>
+		</>
 	);
 }
 

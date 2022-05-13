@@ -10,8 +10,8 @@ interface PedidoConfirmPageProps {
 const PedidoConfirmPage: React.FC<PedidoConfirmPageProps> = () => {
 
 	return (
-		<Container>
-		</Container>
+		<>
+		</>
 	);
 }
 

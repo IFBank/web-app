@@ -10,8 +10,8 @@ interface EncomendaPedidoPageProps {
 const EncomendaPedidoPage: React.FC<EncomendaPedidoPageProps> = () => {
 
 	return (
-		<Container>
-		</Container>
+		<>
+		</>
 	);
 }
 

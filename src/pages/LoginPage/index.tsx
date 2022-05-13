@@ -10,8 +10,8 @@ interface GenericPageProps {
 const GenericPage: React.FC<GenericPageProps> = () => {
 
 	return (
-		<Container>
-		</Container>
+		<>
+		</>
 	);
 }
 
