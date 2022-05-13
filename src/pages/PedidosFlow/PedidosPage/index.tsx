@@ -21,7 +21,7 @@ const PedidosPage: React.FC<PedidosPageProps> = () => {
 			titleHeader="Pedidos" 
 			subTitleHeader="Encontre aqui os pedidos requisitados pelo nosso aplicativo"
 		>
-			<GenericButton />
+			<GenericButton iconName="add_circle_outline" iconSize={34} text="Novo Pedido" borderRadius={30} />
 			<img src={pedidosInitial} />
 		</Container>
 	);

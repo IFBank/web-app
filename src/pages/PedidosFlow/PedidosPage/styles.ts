@@ -8,4 +8,7 @@ export const Container = styled(BasePage)`
 	justify-content: space-around;
 	align-items: center;
 
+	img {
+		width: 350px;
+	}
 `;
