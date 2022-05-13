@@ -7,7 +7,6 @@ interface ContainerProps {
 export const PinContainer = styled.div`
 	width: auto;
 	position: relative;
-	margin-bottom: 10px;
 
 	display: flex;
 	justify-content: center;
@@ -60,13 +59,9 @@ export const InfoContainer = styled.div`
 	display: flex;
 	flex: 1;
 	align-items: flex-end;
-
-	margin-top: 5px;
 `;
 
 export const PedidoVencimentoText = styled.p`
-	margin-top: 8px;
-
 	font-family: Mukta;
 	font-size: 18px;
 	font-weight: 400;
