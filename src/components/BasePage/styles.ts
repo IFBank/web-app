@@ -22,11 +22,11 @@ export const HeaderContainer = styled.header`
 	flex-direction: row;
 	justify-content: space-between;
 
-	padding: 36px 60px;
+	padding: 24px 60px;
 `;
 
 export const MainContent = styled.main`
 	padding: 0px 50px;
-	padding-bottom: 38px;
+	padding-bottom: 16px;
 	flex: 1;
 `;
