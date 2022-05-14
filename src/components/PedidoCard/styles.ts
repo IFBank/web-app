@@ -58,7 +58,7 @@ export const PedidoTitle = styled.span`
 export const InfoContainer = styled.div`
 	display: flex;
 	flex: 1;
-	align-items: flex-end;
+	flex-direction: column;
 `;
 
 export const PedidoVencimentoText = styled.p`

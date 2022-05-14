@@ -7,7 +7,7 @@ interface ContainerProps {
 // COMPONENTES DE BASE
 export const Container = styled.p<ContainerProps>`
 	display: flex;
-	align-items: flex-end;
+	align-items: baseline;
 
 	color: ${ ({fontColor}) => fontColor};
 
@@ -16,7 +16,6 @@ export const Container = styled.p<ContainerProps>`
 	font-weight: 400;
 
 	span{
-		
 		font-weight: 600;
 	}
 
@@ -31,5 +30,5 @@ export const Dashed = styled.div`
 
 	flex: 1;
 
-	margin: 0 8px;
+	margin: 0 2px;
 `;

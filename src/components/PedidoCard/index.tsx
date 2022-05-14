@@ -38,7 +38,7 @@ const PedidoCard: React.FC<PedidoCardProps> = ({ gradient, ... rest}) => {
 		</PedidoTitle>
 		
 		<InfoContainer>
-			<LeadingText name="Valor" valueString="0,00"/>
+			<LeadingText name="Valor" valueString="0,00" fontColor="white"/>
 			<PedidoVencimentoText>
 				Vencimento: <span>10:40</span>
 			</PedidoVencimentoText>	
