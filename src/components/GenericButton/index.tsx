@@ -21,7 +21,7 @@ const GenericButton: React.FC<GenericButtonProps> = (
 		text="TESTE", 
 		fontColor="white", 
 		iconName, 
-		iconSize=24, 
+		iconSize=20, 
 		... rest 
 	}
 ) => {

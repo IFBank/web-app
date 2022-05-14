@@ -14,6 +14,8 @@ export const Container = styled.div<ContainerProps>`
 	border-radius: ${ ({borderRadius}) =>  `${borderRadius}px` };
 	padding: 10px 32px;
 
+	height: min-content;
+
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -25,11 +27,11 @@ export const Container = styled.div<ContainerProps>`
 	> span{
 		color: ${({fontColor}) => fontColor};
 		font-family: Ubuntu;
-		font-size: 25px;
+		font-size: 22px;
 		font-weight: 700;
 	}
 `;
 
 export const MaterialIconStyled = styled(MaterialIcon)`
-	margin-right: 12px;
+	margin-right: 8px;
 `;
