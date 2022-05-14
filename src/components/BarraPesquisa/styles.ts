@@ -22,8 +22,9 @@ export const InputContainer = styled.div`
 	box-shadow: 0px 4px 4px 0px #00000040;
 
 	div {
-		margin-left: 30px;
-		margin-right: 24px;
+		margin-left: 24px;
+		margin-right: 20px;
+		cursor: pointer;
 	}
 
 	input {
