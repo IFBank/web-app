@@ -10,8 +10,11 @@ interface NewPedidoPageProps {
 const NewPedidoPage: React.FC<NewPedidoPageProps> = () => {
 
 	return (
-		<>
-		</>
+		<Container
+			titleHeader="Pedidos" 
+			subTitleHeader="Crie aqui os pedidos requisitados pessoalmente"
+		>
+		</Container>
 	);
 }
 

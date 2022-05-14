@@ -10,8 +10,11 @@ interface EstoquePageProps {
 const EstoquePage: React.FC<EstoquePageProps> = () => {
 
 	return (
-		<>
-		</>
+		<Container
+			titleHeader="Estoque" 
+			subTitleHeader="Trabalhe aqui com as funcionalidades de criação, exclusão e atualização das mercadorias."
+		>
+		</Container>
 	);
 }
 
