@@ -1,5 +1,7 @@
 import React from 'react';
 
+import LeadingText from '../LeadingText'
+
 import {
 	PinContainer,
 	PinOuterCircle,
@@ -36,6 +38,7 @@ const PedidoCard: React.FC<PedidoCardProps> = ({ gradient, ... rest}) => {
 		</PedidoTitle>
 		
 		<InfoContainer>
+			<LeadingText name="Valor" valueString="0,00"/>
 			<PedidoVencimentoText>
 				Vencimento: <span>10:40</span>
 			</PedidoVencimentoText>	
