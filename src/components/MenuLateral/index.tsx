@@ -26,10 +26,10 @@ const MenuLateral: React.FC<MenuLateralProps> = () => {
 			</LogoContainer>
 
 			<MenuItemContainer>
-				<MenuItem nameIcon="task" />	
-				<MenuItem nameIcon="pending_actions" selected />	
-				<MenuItem nameIcon="analytics" />	
-				<MenuItem nameIcon="inventory_2" />	
+				<MenuItem nameIcon="task" to={'/pedidos'} />	
+				<MenuItem nameIcon="pending_actions" to={'/encomendas'} />	
+				<MenuItem nameIcon="analytics" to={'/dashboard'} />	
+				<MenuItem nameIcon="inventory_2" to={'/estoque'} />	
 			</MenuItemContainer>
 			
 			<ExitButtonContainer>

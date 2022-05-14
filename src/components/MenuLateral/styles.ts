@@ -29,7 +29,7 @@ export const LogoContainer = styled.div`
 	}
 `;
 
-export const MenuItemContainer = styled.div`
+export const MenuItemContainer = styled.nav`
 	justify-content: center;
 
 	display: flex;
