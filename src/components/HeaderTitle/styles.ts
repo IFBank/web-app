@@ -7,7 +7,7 @@ export const Container = styled.div`
 
 	h2{
 		font-weight: bold;
-		font-size: 36px;
+		font-size: 26px;
 		color: #020A02;
 	}
 

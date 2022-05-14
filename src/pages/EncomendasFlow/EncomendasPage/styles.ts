@@ -10,7 +10,7 @@ export const Container = styled(BasePage)`
 
 export const PageIndicator = styled.span`
 	font-family: Mukta;
-	font-size: 30px;
+	font-size: 22px;
 	font-weight: 400;
 	text-align: center;
 `;
