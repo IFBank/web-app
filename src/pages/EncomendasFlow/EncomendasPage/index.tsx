@@ -1,7 +1,7 @@
 import React from 'react';
 
 import BarraPesquisa from '../../../components/BarraPesquisa';
-import PedidoCard from '../../../components/PedidoCard';
+import PedidoPin from '../../../components/PedidoPin';
 import MaterialIcon from '../../../components/MaterialIcon';
 
 
@@ -36,27 +36,27 @@ const EncomendasPage: React.FC<EncomendasPageProps> = () => {
 				
 
 				<PedidosGrid>
-					<PedidoCard	gradient="primary"/>
-					<PedidoCard	gradient="secondary"/>
-					<PedidoCard	gradient="primary"/>
-					<PedidoCard	gradient="secondary"/>
+					<PedidoPin	gradient="primary"/>
+					<PedidoPin	gradient="secondary"/>
+					<PedidoPin	gradient="primary"/>
+					<PedidoPin	gradient="secondary"/>
 
 					
-					<PedidoCard	gradient="secondary"/>
-					<PedidoCard	gradient="primary"/>
-					<PedidoCard	gradient="secondary"/>
-					<PedidoCard	gradient="primary"/>
+					<PedidoPin	gradient="secondary"/>
+					<PedidoPin	gradient="primary"/>
+					<PedidoPin	gradient="secondary"/>
+					<PedidoPin	gradient="primary"/>
 
-					<PedidoCard	gradient="primary"/>
-					<PedidoCard	gradient="secondary"/>
-					<PedidoCard	gradient="primary"/>
-					<PedidoCard	gradient="secondary"/>
+					<PedidoPin	gradient="primary"/>
+					<PedidoPin	gradient="secondary"/>
+					<PedidoPin	gradient="primary"/>
+					<PedidoPin	gradient="secondary"/>
 
 					
-					<PedidoCard	gradient="secondary"/>
-					<PedidoCard	gradient="primary"/>
-					<PedidoCard	gradient="secondary"/>
-					<PedidoCard	gradient="primary"/>
+					<PedidoPin	gradient="secondary"/>
+					<PedidoPin	gradient="primary"/>
+					<PedidoPin	gradient="secondary"/>
+					<PedidoPin	gradient="primary"/>
 
 				</PedidosGrid>
 
