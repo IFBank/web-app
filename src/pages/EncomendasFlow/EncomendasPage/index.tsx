@@ -1,72 +1,115 @@
-import React from 'react';
+import React, { useState } from "react";
 
-import BarraPesquisa from '../../../components/BarraPesquisa';
-import PedidoPin from '../../../components/PedidoPin';
-import MaterialIcon from '../../../components/MaterialIcon';
-
+import BarraPesquisa from "../../../components/BarraPesquisa";
+import MaterialIcon from "../../../components/MaterialIcon";
 
 import {
-	Container,
-	PageIndicator,
-	Content,
-	ButtonPassPage,
-	PedidosGrid
-} from './styles';
+  Container,
+  PageIndicator,
+  Content,
+  ButtonPassPage,
+  PedidosGrid,
+} from "./styles";
+import { api } from "../../../services/api";
+import PedidoCard from "../../../components/PedidoPin";
+import moment from "moment-timezone";
 
-interface EncomendasPageProps {
-};
+interface EncomendasPageProps {}
+
+interface IItem {
+  price: number;
+}
+
+interface IOrderItem {
+  amount: number;
+  item: IItem;
+}
+
+interface IOrders {
+  id: string;
+  name: string;
+  withdraw_date: string;
+  order_item: IOrderItem[];
+}
 
 const EncomendasPage: React.FC<EncomendasPageProps> = () => {
+  const [orders, setOrders] = useState<IOrders[]>([]);
+  const [search, setSearch] = useState("");
 
-	return (
-		<Container 
-			titleHeader="Encomendas" 
-			subTitleHeader="Encontre aqui os pedidos requisitados pelo nosso aplicativo"
-		>
-			<BarraPesquisa>
-				<PageIndicator>
-					1/2
-				</PageIndicator>
-			</BarraPesquisa>
-			
-			<Content>
-				<ButtonPassPage>
-					<MaterialIcon name="arrow_back" size={26} color="black" />	
-				</ButtonPassPage>
-				
+  let index = 1;
 
-				<PedidosGrid>
-					<PedidoPin	gradient="primary"/>
-					<PedidoPin	gradient="secondary"/>
-					<PedidoPin	gradient="primary"/>
-					<PedidoPin	gradient="secondary"/>
+  React.useEffect(() => {
+    async function getOrders() {
+      const response = await api.get(`/order/all`);
+      setOrders(response.data);
+    }
 
-					
-					<PedidoPin	gradient="secondary"/>
-					<PedidoPin	gradient="primary"/>
-					<PedidoPin	gradient="secondary"/>
-					<PedidoPin	gradient="primary"/>
+    getOrders();
+  }, []);
 
-					<PedidoPin	gradient="primary"/>
-					<PedidoPin	gradient="secondary"/>
-					<PedidoPin	gradient="primary"/>
-					<PedidoPin	gradient="secondary"/>
+  return (
+    <Container
+      titleHeader="Encomendas"
+      subTitleHeader="Encontre aqui os pedidos requisitados pelo nosso aplicativo"
+    >
+      <BarraPesquisa setSearch={setSearch} search={search}>
+        <PageIndicator>1/2</PageIndicator>
+      </BarraPesquisa>
 
-					
-					<PedidoPin	gradient="secondary"/>
-					<PedidoPin	gradient="primary"/>
-					<PedidoPin	gradient="secondary"/>
-					<PedidoPin	gradient="primary"/>
+      <Content>
+        <ButtonPassPage>
+          <MaterialIcon name="arrow_back" size={26} color="black" />
+        </ButtonPassPage>
+        {/*@ts-ignore*/}
+        <PedidosGrid>
+          {orders.map((order) => {
+            if (search.trim() !== "") {
+              if (!order.name.toUpperCase().includes(search.toUpperCase())) {
+                console.log(search, order.name);
 
-				</PedidosGrid>
+                return null;
+              }
+            }
 
-				<ButtonPassPage>
-					<MaterialIcon name="arrow_forward" size={26} color="black" />	
-				</ButtonPassPage>
-			</Content>
+            index += 1;
 
-		</Container>
-	);
-}
+            let gradient = "primary";
+
+            if (index % 2 === 1) {
+              gradient = "secondary";
+            }
+
+            let total = 0;
+
+            order.order_item.map((currentItem) => {
+              total += currentItem.amount * currentItem.item.price;
+            });
+
+            const dateFormatted = moment
+              .tz(order.withdraw_date, "America/Campo_Grande")
+              .format("HH:mm:ss");
+
+            return (
+              <PedidoCard
+                key={order.id}
+                gradient={gradient as "primary" | "secondary"}
+                name={order.name.toUpperCase()}
+                price_formatted={new Intl.NumberFormat("pt-BR", {
+                  style: "currency",
+                  currency: "BRL",
+                }).format(total)}
+                withdraw_date_formatted={dateFormatted}
+              />
+            );
+          })}
+        </PedidosGrid>
+
+        <ButtonPassPage>
+          <MaterialIcon name="arrow_forward" size={26} color="black" />
+        </ButtonPassPage>
+      </Content>
+    </Container>
+  );
+};
 
 export default EncomendasPage;

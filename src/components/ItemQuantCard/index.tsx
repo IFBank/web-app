@@ -1,34 +1,32 @@
-import React, {useState}from 'react';
+import React, { useState } from "react";
 
-import MaterialIcon from '../../components/MaterialIcon';
+import MaterialIcon from "../../components/MaterialIcon";
 
 import {
-	Container,
-	InfoContainer,
-	ActionContainer,
-	QuantContainer,
-	ActionButton,
-	QuantText
-} from './styles';
+  Container,
+  InfoContainer,
+  ActionContainer,
+  QuantContainer,
+  ActionButton,
+  QuantText,
+} from "./styles";
 
-interface PedidoQuantCardProps {
-};
+interface PedidoQuantCardProps {}
 
 const PedidoQuantCard: React.FC<PedidoQuantCardProps> = () => {
-	
-	const [quantValue, setQuantValue] = useState<number>(0);
+  const [quantValue, setQuantValue] = useState<number>(0);
 
-	return (
-		<Container>
-			<img src="" />
+  return (
+    <Container>
+      <img src="" />
 
-			<InfoContainer>
-				<p>Nome</p>
-				<p>Valor</p>
-				<p>Estoque</p>
-			</InfoContainer>
+      <InfoContainer>
+        <p>Nome</p>
+        <p>Valor</p>
+        <p>Estoque</p>
+      </InfoContainer>
 
-			<ActionContainer>
+      {/* <ActionContainer>
 				<QuantContainer>
 					<ActionButton backgroundColor="--linear-semantic-red">
 						<MaterialIcon name="task" size="30" color="white" />
@@ -45,9 +43,9 @@ const PedidoQuantCard: React.FC<PedidoQuantCardProps> = () => {
 					Adicionar
 				</ActionButton>
 
-			</ActionContainer>
-		</Container>
-	);
-}
+			</ActionContainer> */}
+    </Container>
+  );
+};
 
 export default PedidoQuantCard;
