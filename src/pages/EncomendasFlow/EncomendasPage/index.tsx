@@ -36,6 +36,8 @@ const EncomendasPage: React.FC<EncomendasPageProps> = () => {
   const [orders, setOrders] = useState<IOrders[]>([]);
   const [search, setSearch] = useState("");
 
+  let index = 1;
+
   React.useEffect(() => {
     async function getOrders() {
       const response = await api.get(`/order/all`);
@@ -60,8 +62,17 @@ const EncomendasPage: React.FC<EncomendasPageProps> = () => {
         </ButtonPassPage>
         {/*@ts-ignore*/}
         <PedidosGrid>
-          {orders.map((order, index) => {
-            index += 2;
+          {orders.map((order) => {
+            if (search.trim() !== "") {
+              if (!order.name.toUpperCase().includes(search.toUpperCase())) {
+                console.log(search, order.name);
+
+                return null;
+              }
+            }
+
+            index += 1;
+
             let gradient = "primary";
 
             if (index % 2 === 1) {
@@ -77,14 +88,6 @@ const EncomendasPage: React.FC<EncomendasPageProps> = () => {
             const dateFormatted = moment
               .tz(order.withdraw_date, "America/Campo_Grande")
               .format("HH:mm:ss");
-
-            if (search.trim() !== "") {
-              if (!order.name.toUpperCase().includes(search.toUpperCase())) {
-                console.log(search, order.name);
-
-                return null;
-              }
-            }
 
             return (
               <PedidoCard
