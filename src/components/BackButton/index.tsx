@@ -1,20 +1,23 @@
 import React from 'react';
 
+import MaterialIcon from '../MaterialIcon';
+
 import {
-	Container
+  Container
 } from './styles'
 
-interface ComponentProps {
+interface BackButtonProps {
 };
 
-const Component: React.FC<ComponentProps> = ({ ... rest }) => {
-	
-	return (
-		<Container { ... rest } > 
-		</Container> 
-	);
+const BackButton: React.FC<BackButtonProps> = ({ ... rest }) => {
+  
+  return (
+    <Container { ... rest } > 
+      <MaterialIcon name="arrow_back" color="black" size={36} />
+    </Container> 
+  );
 
 };
 
-export default Component;
+export default BackButton;
 
