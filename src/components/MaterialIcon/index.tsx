@@ -8,6 +8,7 @@ interface MaterialIconProps {
 	name: string;
 	color: string;
 	size: number;
+	bgColor?: string;
 };
 
 // TODO: Permitir outros estilos de icones (Outline, filled, rounded, sharp, two tone)
