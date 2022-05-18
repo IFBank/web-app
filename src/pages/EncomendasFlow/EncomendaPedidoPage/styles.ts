@@ -35,7 +35,7 @@ export const InfoPedidoContainer = styled.div`
 
 export const ItemsContainer = styled.div`
 	display: flex;
-	flex: 1;
+	
 	flex-wrap: wrap;
 	padding: 16px 32px;
 `;

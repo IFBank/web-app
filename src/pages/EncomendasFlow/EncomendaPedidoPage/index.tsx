@@ -34,9 +34,9 @@ const EncomendaPedidoPage: React.FC<EncomendaPedidoPageProps> = () => {
 					Pedido ID
 				</PedidoTitle>
 				<InfoPedidoContainer>
-					<p> Feito por: <span></span></p>
-					<p> Data: <span></span></p>
-					<p> Total<span></span></p>
+					<p> Feito por: <span>Êxodo Jaffar</span></p>
+					<p> Vencimento: <span>agora</span></p>
+					<p> Total:<span>R$ 12,99</span></p>
 				</InfoPedidoContainer>
 			</PedidoInfoContainer>
 
@@ -50,8 +50,8 @@ const EncomendaPedidoPage: React.FC<EncomendaPedidoPageProps> = () => {
 			{
 			!confirmPedido ? (
 				<> 	
-					<GenericButton text="Cancelar" gradient="semantic-red" iconName="highlight_off" />
-					<GenericButton text="Confirmar" iconName="check_circle_outline" />
+					<GenericButtonEncomendas text="Cancelar" gradient="semantic-red" iconName="highlight_off" />
+					<GenericButtonEncomendas text="Confirmar" iconName="check_circle_outline" />
 				</> ) : <ConfirmComponent />
 			}
 			
