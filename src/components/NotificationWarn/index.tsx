@@ -1,20 +1,26 @@
 import React from 'react';
 
 import {
-	Container
+	Container,
+	MaterialIconBordered
 } from './styles'
 
-interface ComponentProps {
+interface NotificationWarnProps {
 };
 
-const Component: React.FC<ComponentProps> = ({ ... rest }) => {
+const NotificationWarn: React.FC<NotificationWarnProps> = ({ ... rest }) => {
+	// TODO: onClick slideout
 	
 	return (
 		<Container { ... rest } > 
+			<MaterialIconBordered name="done" color="white'" size={24} />
+			<p>
+				Texto
+			</p>
 		</Container> 
 	);
 
 };
 
-export default Component;
+export default NotificationWarn;
 
