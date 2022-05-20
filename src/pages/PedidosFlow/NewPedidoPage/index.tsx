@@ -2,6 +2,7 @@ import React from 'react';
 
 import BarraPesquisa from '../../../components/BarraPesquisa'
 import MaterialIcon from '../../../components/MaterialIcon';
+import ItemQuantCard from '../../../components/ItemQuantCard';
 
 import {
 	Container,
@@ -27,7 +28,7 @@ const NewPedidoPage: React.FC<NewPedidoPageProps> = () => {
 			</BarraPesquisa>
 
 			<Content>
-				
+				<ItemQuantCard />
 			</Content>
 		</Container>
 	);
