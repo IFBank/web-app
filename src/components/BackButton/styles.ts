@@ -4,7 +4,9 @@ export const Container = styled.div`
 	display: block;
 	width: auto;
 
-	cursor: pointer;
-
 	margin-bottom: 24px;
+
+	> *{
+		cursor: pointer;
+	}
 `;
