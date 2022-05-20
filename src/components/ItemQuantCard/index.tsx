@@ -25,9 +25,9 @@ const PedidoQuantCard: React.FC<PedidoQuantCardProps> = () => {
         <img src="" />
 
         <InfoContainer>
-          <InfoText>Nome: <span>{"Nome"}</span></InfoText>
-          <InfoText>Valor: <span>{"Nome"}</span></InfoText>
-          <InfoText>Estoque: <span>{"Nome"}</span></InfoText>
+          <InfoText>Nome</InfoText>
+          <InfoText>Valor</InfoText>
+          <InfoText>Estoque</InfoText>
         </InfoContainer>
       </ImageInfoContainer>
       
