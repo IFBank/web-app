@@ -40,6 +40,8 @@ export const InfoContainer = styled.div`
 
 `;
 
+export const InfoText = styled.p``;
+
 export const ActionContainer = styled.div`
   display: flex;
   flex-direction: column;

@@ -8,6 +8,7 @@ import {
   ImageInfoContainer,
   ActionButtonIcon,
   ActionButtonText,
+  InfoText,
   QuantText,
 } from "./styles";
 
@@ -24,9 +25,9 @@ const PedidoQuantCard: React.FC<PedidoQuantCardProps> = () => {
         <img src="" />
 
         <InfoContainer>
-          <p>Nome</p>
-          <p>Valor</p>
-          <p>Estoque</p>
+          <InfoText>Nome: <span>{"Nome"}</span></InfoText>
+          <InfoText>Valor: <span>{"Nome"}</span></InfoText>
+          <InfoText>Estoque: <span>{"Nome"}</span></InfoText>
         </InfoContainer>
       </ImageInfoContainer>
       
