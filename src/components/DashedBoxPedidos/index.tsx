@@ -4,17 +4,19 @@ import {
 	Container
 } from './styles'
 
-interface ComponentProps {
+interface DashedBoxPedidosProps {
+	children?: React.ReactNode;
 };
 
-const Component: React.FC<ComponentProps> = ({ ... rest }) => {
+const DashedBoxPedidos: React.FC<DashedBoxPedidosProps> = ({ children = null, ... rest }) => {
 	
 	return (
 		<Container { ... rest } > 
+			{children}
 		</Container> 
 	);
 
 };
 
-export default Component;
+export default DashedBoxPedidos;
 
