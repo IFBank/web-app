@@ -4,9 +4,7 @@ export const Container = styled.div`
 	display: flex;
 	padding: 16px;
 	flex-basis: 50%;
-	border: 1px solid;
-
-	border-image-source: var(--linear-primary);
+	border: #32DC32 solid 2px;
 `;
 
 export const Img = styled.img`
