@@ -18,6 +18,8 @@ interface PedidoQuantCardProps {};
 
 // TODO: Controle da quantidade
 
+// TODO: Versão estoque controlado por prop
+
 const PedidoQuantCard: React.FC<PedidoQuantCardProps> = () => {
   const [quantValue, setQuantValue] = useState<number>(0);
 
