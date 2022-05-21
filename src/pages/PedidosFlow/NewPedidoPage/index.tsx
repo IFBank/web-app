@@ -13,6 +13,10 @@ import {
 interface NewPedidoPageProps {
 };
 
+// TODO: Add controle dos items adicionados
+// TODO: Imagem de item não encontrado
+// TODO: DashedBoard com "Fim da listagem"
+
 const NewPedidoPage: React.FC<NewPedidoPageProps> = () => {
 
 	return (

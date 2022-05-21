@@ -7,7 +7,6 @@ import GenericButton from '../../../components/GenericButton'
 
 import ItemQuantCard from '../../../components/ItemQuantCard';
 
-
 import {
 	Container,
 	PedidoInfoContainer,
@@ -19,6 +18,8 @@ import {
 
 interface PedidoConfirmPageProps {
 };
+
+// TODO: DashedBoard com MaterialIcon de shop (veja icones)
 
 const PedidoConfirmPage: React.FC<PedidoConfirmPageProps> = () => {
 	const [confirm, setConfirm] = useState(false);

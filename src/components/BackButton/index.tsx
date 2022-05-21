@@ -9,6 +9,8 @@ import {
 interface BackButtonProps {
 };
 
+// TODO: usar api do react router para fazer o comportamente de voltar
+
 const BackButton: React.FC<BackButtonProps> = ({ ... rest }) => {
   
   return (
