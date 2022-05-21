@@ -34,7 +34,7 @@ export const ImageInfoContainer = styled.div`
 export const InfoContainer = styled.div`
   margin-left: 12px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
 
   flex-direction: column;
 

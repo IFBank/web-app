@@ -38,7 +38,7 @@ const PedidoQuantCard: React.FC<PedidoQuantCardProps> = () => {
 
       <ActionContainer>
         <QuantContainer>
-          <ActionButtonIcon bgColor="semantic-red" name="task" size={30} color="white" />
+          <ActionButtonIcon bgColor="semantic-red" name="remove" size={30} color="white" />
           <QuantText>{quantValue}</QuantText>
           <ActionButtonIcon bgColor="primary" name="add" size={30} color="white" />
         </QuantContainer>
