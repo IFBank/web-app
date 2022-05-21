@@ -13,7 +13,7 @@ export const Container = styled.div`
   align-items: center;
   flex: 1;
 
-  padding: 8px 16px;
+  padding: 12px 18px;
 
   border: #32DC32 solid 2px;
 
@@ -32,7 +32,7 @@ export const ImageInfoContainer = styled.div`
 `;
 
 export const InfoContainer = styled.div`
-  margin-left: 4px;
+  margin-left: 12px;
   display: flex;
   justify-content: center;
 
@@ -40,7 +40,24 @@ export const InfoContainer = styled.div`
 
 `;
 
-export const InfoText = styled.p``;
+export const NameText = styled.p`
+  font-family: Mukta;
+  font-size: 24px;
+  font-weight: 700;
+`;
+
+export const ValueText = styled.p`
+  font-family: Mukta;
+  font-size: 16px;
+  font-weight: 400;
+  color: #32CD32;
+`;
+
+export const EstoqueText = styled.p`
+  font-family: Mukta;
+  font-size: 17px;
+  font-weight: 400;
+`;
 
 export const ActionContainer = styled.div`
   display: flex;
@@ -78,15 +95,22 @@ export const ActionButtonText = styled.div<IActionButtonTextProps>`
   border-radius: 5px; 
   padding: 4px 8px;
 
+  font-family: Ubuntu;
+  font-size: 18px;
+  font-weight: 700;
+
   text-align: center;
 `;
 
 export const QuantText = styled.span`
-  background-color: #CCC;
-  border-bottom: black solid 2px;
+  box-shadow: 0px 4px 4px 0px #00000040;
+  background: #C4C4C44D;
+
   width: 16px;
 
   font-size: 20px;
+
+  margin: 0 8px;
 
   padding: 0px 10px;
 
