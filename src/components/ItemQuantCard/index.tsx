@@ -16,10 +16,10 @@ import {
 
 interface PedidoQuantCardProps {};
 
+// TODO: Controle da quantidade
+
 const PedidoQuantCard: React.FC<PedidoQuantCardProps> = () => {
   const [quantValue, setQuantValue] = useState<number>(0);
-
-  // TODO: consertar estilização dos textos.
 
   return (
     <Container>
