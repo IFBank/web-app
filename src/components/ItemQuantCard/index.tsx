@@ -24,7 +24,7 @@ interface ItemQuantCardProps {
 
 // TODO: Controle da quantidade
 
-// TODO: Versão estoque controlado por prop
+// TODO: Rever cursor. esta no card inteiro
 
 const ItemQuantCard: React.FC<ItemQuantCardProps> = ({isEstoquePage=false, ... rest}) => {
   const [isClicked, setIsClicked] = useState<boolean>(false)
