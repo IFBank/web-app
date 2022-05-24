@@ -6,16 +6,29 @@ interface IActionButtonTextProps{
   bgColor: string;
 };
 
+
+interface IChanceOnClickComponentsProps{
+  isClicked: boolean;
+};
+
+interface IContainerProps{
+  isEstoquePage: boolean;
+};
+
 // COMPONENTES DE BASE
-export const Container = styled.div`
+export const Container = styled.div<IContainerProps & IChanceOnClickComponentsProps>`
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex: 1;
 
+  ${ ({isEstoquePage}) => isEstoquePage && "cursor: pointer;"}
+  ${ ({isClicked}) => isClicked && "background: var(--linear-secondary);"}
+
   padding: 12px 18px;
 
   border: #32DC32 solid 2px;
+  ${ ({isClicked}) => isClicked && "border: none;"}
 
   border-radius: 8px;
 
@@ -27,16 +40,29 @@ export const Container = styled.div`
   }
 `;
 
+export const DeleteEditContainer = styled.div`
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  > * {
+    margin-left: 24px;
+  }
+`;
+
 export const ImageInfoContainer = styled.div`
   display: flex;
 `;
 
-export const InfoContainer = styled.div`
+export const InfoContainer = styled.div<IChanceOnClickComponentsProps>`
   margin-left: 12px;
   display: flex;
   justify-content: flex-start;
 
   flex-direction: column;
+
+  color: ${({isClicked}) => isClicked ? "white" : "black"};
 
 `;
 
@@ -59,8 +85,8 @@ export const EstoqueText = styled.p`
   font-weight: 400;
 `;
 
-export const ActionContainer = styled.div`
-  display: flex;
+export const ActionContainer = styled.div<IChanceOnClickComponentsProps>`
+  display: ${({isClicked}) => isClicked ? "none" : "flex"};
   flex-direction: column;
 
   width: 100px;
