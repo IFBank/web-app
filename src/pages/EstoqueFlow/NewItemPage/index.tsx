@@ -12,7 +12,7 @@ const NewItemPage: React.FC<NewItemPageProps> = () => {
 	return (
 		<Container
 			titleHeader="Cadastro de mercadoria" 
-			subTitleHeader="Cadastro de mercadoria"
+			subTitleHeader="Preencha os campos e cadastre um produto."
 		>
 		</Container>
 	);
