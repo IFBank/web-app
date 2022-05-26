@@ -5,6 +5,8 @@ export const Container = styled.div`
 	padding: 16px;
 	flex-basis: 50%;
 	border: #32DC32 solid 2px;
+
+	box-shadow: 0px 4px 4px 0px #00000040;
 `;
 
 export const Img = styled.img`
