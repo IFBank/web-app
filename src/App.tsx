@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 import LoginPage from "./pages/LoginPage";
 import DashboardPage from "./pages/DashboardPage";
@@ -21,7 +21,7 @@ function App() {
   return (
     <Routes>
       {/* <Route path="/" element={<LoginPage />} /> */}
-      <Route path="/" element={<DashboardPage />} />
+      <Route path="/" element={<PedidosPage />} />
       <Route path="/dashboard" element={<DashboardPage />} />
 
       <Route path="/pedidos" element={<PedidosPage />} />
@@ -35,6 +35,8 @@ function App() {
       <Route path="/estoque/new" element={<NewItemPage />} />
       <Route path="/estoque/edit" element={<EditItemPage />} />
       <Route path="/estoque/balanco" element={<BalancoPage />} />
+
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }

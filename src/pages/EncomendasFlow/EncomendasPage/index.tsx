@@ -92,6 +92,7 @@ const EncomendasPage: React.FC<EncomendasPageProps> = () => {
             return (
               <PedidoCard
                 key={order.id}
+                id={order.id}
                 gradient={gradient as "primary" | "secondary"}
                 name={order.name.toUpperCase()}
                 price_formatted={new Intl.NumberFormat("pt-BR", {

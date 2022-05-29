@@ -1,34 +1,46 @@
-import React from 'react';
+import React from "react";
 
-import {
-	Container,
-	Img,
-	TextContainer,
-	Title,
-	Info
-} from './styles'
+import { Container, Img, TextContainer, Title, Info } from "./styles";
 
-interface ComponentProps {
-};
+interface IItem {
+  name: string;
+  price: number;
+  amount: number;
+  avatar_url?: string;
+}
 
-const Component: React.FC<ComponentProps> = ({ ... rest }) => {
-	
-	return (
-		<Container { ... rest } > 
+const Component: React.FC<IItem> = ({
+  name,
+  price,
+  amount,
+  avatar_url,
+  ...rest
+}) => {
+  console.log(avatar_url);
 
-			<Img />
-			<TextContainer>
-				<Title>
-					{"Coxinha de Frango"}
-				</Title>
+  return (
+    <Container {...rest}>
+      <Img src={avatar_url} />
+      <TextContainer>
+        <Title>{name}</Title>
 
-				<Info> Quant: <span>{'1'} unid.</span> </Info>
-				<Info> Total: <span>R$ {'1'} </span> </Info>
-			</TextContainer>
-		</Container> 
-	);
-
+        <Info>
+          {" "}
+          Quant: <span>{amount} unid.</span>{" "}
+        </Info>
+        <Info>
+          {" "}
+          Total:{" "}
+          <span>
+            {new Intl.NumberFormat("pt-BR", {
+              style: "currency",
+              currency: "BRL",
+            }).format(price * amount)}{" "}
+          </span>{" "}
+        </Info>
+      </TextContainer>
+    </Container>
+  );
 };
 
 export default Component;
-

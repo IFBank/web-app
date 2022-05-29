@@ -1,65 +1,166 @@
-import React, {useState} from 'react';
+import React, { useState } from "react";
 
-import BackButton from '../../../components/BackButton'
+import BackButton from "../../../components/BackButton";
 
-import ItemInfoEncomendas from '../../../components/ItemInfoEncomendas'
-import ConfirmComponent from '../../../components/ConfirmComponent'
+import ItemInfoEncomendas from "../../../components/ItemInfoEncomendas";
+import ConfirmComponent from "../../../components/ConfirmComponent";
+
+import moment from "moment-timezone";
 
 import {
-	Container,
-	PedidoInfoContainer,
-	PedidoTitle,
-	InfoPedidoContainer,
-	ItemsContainer,
-	GenericButtonEncomendas,
-	ConfirmConteiner,
+  Container,
+  PedidoInfoContainer,
+  PedidoTitle,
+  InfoPedidoContainer,
+  ItemsContainer,
+  GenericButtonEncomendas,
+  ConfirmConteiner,
+} from "./styles";
+import { api } from "../../../services/api";
+import { useNavigate, useParams } from "react-router-dom";
 
-} from './styles';
+interface EncomendaPedidoPageProps {}
 
-interface EncomendaPedidoPageProps {
-};
+interface IItem {
+  id: string;
+  price: number;
+  avatar_url: string;
+  name: string;
+}
+
+interface IOrderItem {
+  amount: number;
+  item: IItem;
+}
+
+interface IOrderWallet {
+  user: {
+    name: string;
+  };
+}
+
+interface IOrder {
+  name: string;
+  withdraw_date: string;
+  order_item: IOrderItem[];
+  wallet: IOrderWallet;
+}
 
 const EncomendaPedidoPage: React.FC<EncomendaPedidoPageProps> = () => {
-	const [confirmPedido, setConfirmPedido] = useState(false);
+  const [confirmPedido, setConfirmPedido] = useState(false);
+  const [orderTotal, setOrderTotal] = useState(0);
+  const [order, setOrder] = useState<IOrder>({} as IOrder);
+  const [loading, setLoading] = useState(true);
+  const { id_pedido: order_id } = useParams();
 
-	return (
-		<Container
-			titleHeader="Encomendas" 
-			subTitleHeader="Encontre aqui os pedidos requisitados pelo nosso aplicativo"
-		>
-			<BackButton />
+  const navigate = useNavigate();
 
-			<PedidoInfoContainer>
-				<PedidoTitle>
-					Pedido ID
-				</PedidoTitle>
-				<InfoPedidoContainer>
-					<p> Feito por: <span>Êxodo Jaffar</span></p>
-					<p> Vencimento: <span>agora</span></p>
-					<p> Total:<span>R$ 12,99</span></p>
-				</InfoPedidoContainer>
-			</PedidoInfoContainer>
+  async function cancelOrder() {
+    navigate("/encomendas");
+  }
 
-			<ItemsContainer>
-				<ItemInfoEncomendas />
-				<ItemInfoEncomendas />
-			</ItemsContainer>
+  async function confirmOrder() {
+    // CRIAR ROTA DE CONFIRMAR ORDER
+  }
 
-			<ConfirmConteiner>
-			
-			{
-			!confirmPedido ? (
-				<> 	
-					<GenericButtonEncomendas text="Cancelar" gradient="semantic-red" iconName="highlight_off" />
-					<GenericButtonEncomendas text="Confirmar" iconName="check_circle_outline" />
-				</> ) : <ConfirmComponent />
-			}
-			
-			</ConfirmConteiner>
-		
+  React.useEffect(() => {
+    if (!loading) {
+      return;
+    }
 
-		</Container>
-	);
-}
+    async function getOrders() {
+      const response = await api.get(`/order/${order_id}`);
+
+      if (!response.data) {
+        navigate("/");
+      }
+
+      let orderSumTotal = 0;
+      response.data.order_item.map(async (item) => {
+        orderSumTotal += orderTotal + item.amount * item.item.price;
+      });
+
+      setOrder(response.data);
+      setOrderTotal(orderSumTotal);
+      setLoading(false);
+    }
+
+    getOrders();
+  }, []);
+
+  return (
+    <Container
+      titleHeader="Encomendas"
+      subTitleHeader="Encontre aqui os pedidos requisitados pelo nosso aplicativo"
+    >
+      <BackButton />
+
+      {!loading ? (
+        <>
+          <PedidoInfoContainer>
+            <PedidoTitle>{order.name.toUpperCase()}</PedidoTitle>
+            <InfoPedidoContainer>
+              <p>
+                {" "}
+                Feito por: <span>{order.wallet.user.name}</span>
+              </p>
+              <p>
+                {" "}
+                Vencimento:{" "}
+                <span>
+                  {moment
+                    .tz(order.withdraw_date, "America/Campo_Grande")
+                    .format("HH:mm:ss")}
+                </span>
+              </p>
+              <p>
+                {" "}
+                Total:
+                <span>
+                  {" "}
+                  {new Intl.NumberFormat("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                  }).format(orderTotal)}
+                </span>
+              </p>
+            </InfoPedidoContainer>
+          </PedidoInfoContainer>
+          <ItemsContainer>
+            {order.order_item.map((item) => (
+              <ItemInfoEncomendas
+                name={item.item.name}
+                amount={item.amount}
+                price={item.item.price}
+                key={item.item.id}
+                avatar_url={item.item.avatar_url}
+              />
+            ))}
+          </ItemsContainer>
+
+          <ConfirmConteiner>
+            {!confirmPedido ? (
+              <>
+                <GenericButtonEncomendas
+                  onClick={cancelOrder}
+                  text="Cancelar"
+                  gradient="semantic-red"
+                  iconName="highlight_off"
+                />
+                <GenericButtonEncomendas
+                  onClick={cancelOrder}
+                  text="Confirmar"
+                  iconName="check_circle_outline"
+                />
+              </>
+            ) : (
+              <ConfirmComponent />
+            )}
+          </ConfirmConteiner>
+        </>
+      ) : null}
+    </Container>
+  );
+};
 
 export default EncomendaPedidoPage;
