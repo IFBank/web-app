@@ -31,7 +31,7 @@ export const ButtonPassPage = styled.div`
 
 export const PedidosGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 200px);
+  grid-template-columns: repeat(4, 220px);
   grid-template-rows: repeat(4, 1fr);
   gap: 16px;
   justify-content: center;

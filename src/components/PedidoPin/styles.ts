@@ -14,8 +14,8 @@ export const PinContainer = styled.div`
 `;
 
 export const PinOuterCircle = styled.div`
-	width: 30px;
-	height: 30px;
+	width: 20px;
+	height: 20px;
 	border-radius: 50%;
 
 	background-color: #CCC;
