@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useCallback} from 'react';
 
 import {
 	Container,
@@ -31,13 +31,25 @@ const GenericInput: React.FC<GenericInputProps> = (
 		... rest 
 	}
 ) => {
-	
+		
+	const [value, setValue ] = useState<any>(defaultValue);
+
+	const onHandleChange =  (e: React.ChangeEvent<HTMLInputElement>) => {
+		setValue(e.target.value)
+	}
+
 	return (
 		<Container { ... rest } > 
 			<LabelText>{textLabel}</LabelText>
 			<InputContainer sideOnRight={sideOnRight} gradient={gradient} >
 				{textSide!="" && <SideText>{textSide}</SideText>}
-				<input name={name} type={inputType} placeholder={placeholder} value={defaultValue} required />
+				<input 
+					name={name} 
+					type={inputType} 
+					placeholder={placeholder} 
+					value={value} 
+					onChange={onHandleChange}
+					required />
 			</InputContainer>
 		</Container> 
 	);
