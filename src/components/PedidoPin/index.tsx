@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 import LeadingText from "../LeadingText";
 
@@ -13,6 +14,7 @@ import {
 } from "./styles";
 
 interface IOrderProps {
+  id: string;
   name: string;
   withdraw_date_formatted: string;
   price_formatted: string;
@@ -29,14 +31,23 @@ const Pin: React.FC = () => {
 };
 
 const PedidoCard: React.FC<IOrderProps> = ({
+  id,
   name,
   withdraw_date_formatted,
   price_formatted,
   gradient,
   ...rest
 }) => {
+  const navigate = useNavigate();
+
   return (
-    <Container backgroundColor={`--linear-${gradient}`} {...rest}>
+    <Container
+      onClick={() => {
+        navigate(`/encomendas/${id}`);
+      }}
+      backgroundColor={`--linear-${gradient}`}
+      {...rest}
+    >
       <Pin />
       <PedidoTitle>Pedido {name}</PedidoTitle>
 
