@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 interface IInputContainerProps {
 	sideOnRight: boolean;
+	gradient: string;
 };
 
 export const Container = styled.div`
@@ -28,7 +29,7 @@ export const InputContainer = styled.div<IInputContainerProps>`
 	flex-direction: ${ ({sideOnRight}) => sideOnRight ? "row" : "row-reverse"};
 
 	> input {
-		border: 1px solid #5E45CC;
+		border: 1px solid ${ ({gradient}) => gradient=="primary" ? "#32DC32":"#5E45CC" } ;
 		border-radius: 5px;
 		box-shadow: 0px 2px 2px 0px #00000040;
 

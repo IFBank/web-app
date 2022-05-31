@@ -14,6 +14,8 @@ interface GenericInputProps {
 	inputType?: string;
 	textSide?: string;
 	sideOnRight?: boolean;
+	defaultValue?: any;
+	gradient?: string;
 };
 
 const GenericInput: React.FC<GenericInputProps> = (
@@ -24,6 +26,8 @@ const GenericInput: React.FC<GenericInputProps> = (
 		textSide="",
 		sideOnRight=true,
 		inputType="text",
+		defaultValue="",
+		gradient="primary",
 		... rest 
 	}
 ) => {
@@ -31,9 +35,9 @@ const GenericInput: React.FC<GenericInputProps> = (
 	return (
 		<Container { ... rest } > 
 			<LabelText>{textLabel}</LabelText>
-			<InputContainer sideOnRight={sideOnRight} >
+			<InputContainer sideOnRight={sideOnRight} gradient={gradient} >
 				{textSide!="" && <SideText>{textSide}</SideText>}
-				<input name={name} type={inputType} placeholder={placeholder} required />
+				<input name={name} type={inputType} placeholder={placeholder} value={defaultValue} required />
 			</InputContainer>
 		</Container> 
 	);
