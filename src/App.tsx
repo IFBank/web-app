@@ -33,7 +33,7 @@ function App() {
 
       <Route path="/estoque" element={<EstoquePage />} />
       <Route path="/estoque/new" element={<NewItemPage />} />
-      <Route path="/estoque/edit" element={<EditItemPage />} />
+      <Route path="/estoque/edit/:id_item" element={<EditItemPage />} />
       <Route path="/estoque/balanco" element={<BalancoPage />} />
     </Routes>
   );
