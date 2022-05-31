@@ -32,15 +32,8 @@ export const PedidoInfoContainer = styled.div`
 `;
 
 export const PedidoTitle = styled.p`
-<<<<<<< HEAD
   text-align: center;
   margin-bottom: 24px;
-`;
-
-export const InfoPedidoContainer = styled.div`
-  display: flex;
-  flex: 1;
-  justify-content: space-between;
 `;
 
 export const ItemsContainer = styled.div`
@@ -48,7 +41,6 @@ export const ItemsContainer = styled.div`
 
   flex-wrap: wrap;
   padding: 16px 32px;
-=======
 	text-align: center;
 	margin-bottom: 24px;
 
@@ -67,14 +59,6 @@ export const InfoPedidoContainer = styled.div`
 		font-size: 18px;
 		font-weight: 600;
 	}
-`;
-
-export const ItemsContainer = styled.div`
-	display: flex;
-	justify-content: center;
-	flex-wrap: wrap;
-	padding: 16px 32px;
->>>>>>> 49b11ed985bb007a517c776d86413eaf9ea6aceb
 `;
 
 export const GenericButtonEncomendas = styled(GenericButton)`
