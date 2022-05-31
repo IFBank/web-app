@@ -24,11 +24,13 @@ const NewItemPage: React.FC<NewItemPageProps> = () => {
 		<Container
 			titleHeader="Cadastro de mercadoria" 
 			subTitleHeader="Preencha os campos e cadastre um produto."
+			textCancelButton="Cancelar cadastro"
 		>
 
 			<FormStyled>
 				<InputImage>
-					<input  type="image" src={addImageItem} alt=""/>
+					<img src={addImageItem} alt="" />
+					<input type="file" hidden />
 				</InputImage>
 
 				<OutrosInputs>
@@ -60,7 +62,7 @@ const NewItemPage: React.FC<NewItemPageProps> = () => {
 			</FormStyled> 
 
 			<ButtonContainer>
-				<GenericButton text="Criar novo item" borderRadius={30} iconName="task" iconSize={36}/>
+				<GenericButton text="Cadastrar produto" borderRadius={30} iconName="create" iconSize={36}/>
 			</ButtonContainer>
 
 			

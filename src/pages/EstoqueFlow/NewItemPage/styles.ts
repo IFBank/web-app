@@ -8,17 +8,18 @@ export const Container = styled(BasePage)`
 
 export const InputImage = styled.div`
 	border: 1.25px dashed #333333;
+
+	cursor: pointer;
+
+	> img{
+		height: 136px;
+	}
 `;
 
 export const FormStyled = styled.form`
 	display: flex;
 
 	padding: 12px;
-
-	> img{
-		height: 100px;
-		width: 220px;	
-	}
 `;
 
 export const OutrosInputs = styled.div`
@@ -47,5 +48,5 @@ export const ButtonContainer = styled.div`
 	justify-content: center;
 	align-items: center;
 
-	margin-top: 24px;
+	margin-top: 40px;
 `;
