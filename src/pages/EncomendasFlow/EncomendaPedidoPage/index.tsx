@@ -59,8 +59,13 @@ const EncomendaPedidoPage: React.FC<EncomendaPedidoPageProps> = () => {
     navigate("/encomendas");
   }
 
+  async function prepareConfirmOrder() {
+    setConfirmPedido(!confirmPedido);
+  }
+
   async function confirmOrder() {
-    // CRIAR ROTA DE CONFIRMAR ORDER
+    await api.get(`/order/admin/finish/${order_id}`);
+    navigate("/encomendas");
   }
 
   React.useEffect(() => {
@@ -93,7 +98,7 @@ const EncomendaPedidoPage: React.FC<EncomendaPedidoPageProps> = () => {
       titleHeader="Encomendas"
       subTitleHeader="Encontre aqui os pedidos requisitados pelo nosso aplicativo"
     >
-      <BackButton />
+      <BackButton onBack={cancelOrder} />
 
       {!loading ? (
         <>
@@ -148,13 +153,16 @@ const EncomendaPedidoPage: React.FC<EncomendaPedidoPageProps> = () => {
                   iconName="highlight_off"
                 />
                 <GenericButtonEncomendas
-                  onClick={cancelOrder}
+                  onClick={prepareConfirmOrder}
                   text="Confirmar"
                   iconName="check_circle_outline"
                 />
               </>
             ) : (
-              <ConfirmComponent />
+              <ConfirmComponent
+                onCancel={prepareConfirmOrder}
+                onConfirm={confirmOrder}
+              />
             )}
           </ConfirmConteiner>
         </>

@@ -1,25 +1,19 @@
-import React from 'react';
+import React from "react";
 
-import MaterialIcon from '../MaterialIcon';
+import MaterialIcon from "../MaterialIcon";
 
-import {
-  Container
-} from './styles'
+import { Container } from "./styles";
 
 interface BackButtonProps {
-};
+  onBack?: () => void;
+}
 
-// TODO: usar api do react router para fazer o comportamente de voltar
-
-const BackButton: React.FC<BackButtonProps> = ({ ... rest }) => {
-  
+const BackButton: React.FC<BackButtonProps> = ({ onBack, ...rest }) => {
   return (
-    <Container { ... rest } > 
+    <Container onClick={onBack} {...rest}>
       <MaterialIcon name="arrow_back" color="black" size={36} />
-    </Container> 
+    </Container>
   );
-
 };
 
 export default BackButton;
-

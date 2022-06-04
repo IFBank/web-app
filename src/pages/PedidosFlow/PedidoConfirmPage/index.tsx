@@ -1,58 +1,57 @@
-import React, {useState} from 'react';
+import React, { useState } from "react";
 
-import BackButton from '../../../components/BackButton'
+import BackButton from "../../../components/BackButton";
 
-import ConfirmComponent from '../../../components/ConfirmComponent'
-import GenericButton from '../../../components/GenericButton'
+import ConfirmComponent from "../../../components/ConfirmComponent";
+import GenericButton from "../../../components/GenericButton";
 
-import ItemQuantCard from '../../../components/ItemQuantCard';
+import ItemQuantCard from "../../../components/ItemQuantCard";
 
 import {
-	Container,
-	PedidoInfoContainer,
-	ItemsContainer,
+  Container,
+  PedidoInfoContainer,
+  ItemsContainer,
+  CarrinhoText,
+  TotalText,
+} from "./styles";
 
-	CarrinhoText,
-	TotalText,
-} from './styles';
-
-interface PedidoConfirmPageProps {
-};
+interface PedidoConfirmPageProps {}
 
 // TODO: DashedBoard com MaterialIcon de shop (veja icones)
 
 const PedidoConfirmPage: React.FC<PedidoConfirmPageProps> = () => {
-	const [confirm, setConfirm] = useState(false);
+  const [confirm, setConfirm] = useState(false);
 
-	return (
-		<Container
-			titleHeader="Pedidos" 
-			subTitleHeader="Crie aqui os pedidos requisitados pessoalmente"
-			textCancelButton="Cancelar pedido"
-		>
-			<BackButton />
-			
-			<PedidoInfoContainer>
-				
-				<CarrinhoText>
-					Carrinho <span>#Pedido {"ID"}</span>
-				</CarrinhoText>	
+  return (
+    <Container
+      titleHeader="Pedidos"
+      subTitleHeader="Crie aqui os pedidos requisitados pessoalmente"
+      textCancelButton="Cancelar pedido"
+    >
+      <BackButton onBack={() => {}} />
 
-				<TotalText>
-					Total: <span>R$ {"19,90"}</span>
-				</TotalText>
+      <PedidoInfoContainer>
+        <CarrinhoText>
+          Carrinho <span>#Pedido {"ID"}</span>
+        </CarrinhoText>
 
-				{
-					!confirm ? <GenericButton text="Finalizar pedido" iconName="check_circle_outline" iconSize={30}/> : <ConfirmComponent />
-				}
-			</PedidoInfoContainer>
-			<ItemsContainer>
-				<ItemQuantCard />	
-			</ItemsContainer>
-			
+        <TotalText>
+          Total: <span>R$ {"19,90"}</span>
+        </TotalText>
 
-		</Container>
-	);
-}
+        {!confirm ? (
+          <GenericButton
+            text="Finalizar pedido"
+            iconName="check_circle_outline"
+            iconSize={30}
+          />
+        ) : (
+          <ConfirmComponent />
+        )}
+      </PedidoInfoContainer>
+      <ItemsContainer>{/* <ItemQuantCard /> */}</ItemsContainer>
+    </Container>
+  );
+};
 
 export default PedidoConfirmPage;

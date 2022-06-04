@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-<<<<<<< HEAD
   display: flex;
   padding: 16px;
   flex-basis: 50%;
@@ -9,14 +8,6 @@ export const Container = styled.div`
   background: #ffffff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
-=======
-	display: flex;
-	padding: 16px;
-	flex-basis: 50%;
-	border: #32DC32 solid 2px;
-
-	box-shadow: 0px 4px 4px 0px #00000040;
->>>>>>> 49b11ed985bb007a517c776d86413eaf9ea6aceb
 `;
 
 export const Img = styled.img`
