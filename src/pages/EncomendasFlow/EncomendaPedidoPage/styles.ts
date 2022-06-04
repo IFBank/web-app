@@ -36,12 +36,6 @@ export const PedidoTitle = styled.p`
   margin-bottom: 24px;
 `;
 
-export const InfoPedidoContainer = styled.div`
-  display: flex;
-  flex: 1;
-  justify-content: space-between;
-`;
-
 export const ItemsContainer = styled.div`
   display: flex;
 
