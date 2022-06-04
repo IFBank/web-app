@@ -103,7 +103,7 @@ const EncomendaPedidoPage: React.FC<EncomendaPedidoPageProps> = () => {
       {!loading ? (
         <>
           <PedidoInfoContainer>
-            <PedidoTitle>{order.name.toUpperCase()}</PedidoTitle>
+            <PedidoTitle>Pedido {order.name.toUpperCase()}</PedidoTitle>
             <InfoPedidoContainer>
               <p>
                 {" "}
