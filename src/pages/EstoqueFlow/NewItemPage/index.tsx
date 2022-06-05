@@ -1,73 +1,112 @@
-import React from 'react';
+import React, { useState } from "react";
 
-import GenericInput from '../../../components/GenericInput';
-import GenericButton from '../../../components/GenericButton'
+import GenericInput from "../../../components/GenericInput";
+import GenericButton from "../../../components/GenericButton";
 
 import {
-	Container,
-	InputImage,
-	FormStyled,
-	OutrosInputs,
-	InputDuplo,
+  Container,
+  InputImage,
+  FormStyled,
+  OutrosInputs,
+  InputDuplo,
+  ButtonContainer,
+} from "./styles";
 
-	ButtonContainer,
-} from './styles';
+import addImageItem from "../../../assets/addImageItem.png";
+import { api } from "../../../services/api";
+import { useNavigate } from "react-router-dom";
 
-import addImageItem from '../../../assets/addImageItem.png'
-
-interface NewItemPageProps {
-};
+interface NewItemPageProps {}
 
 const NewItemPage: React.FC<NewItemPageProps> = () => {
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState(0.0);
+  const [stock, setStock] = useState(0);
 
-	return (
-		<Container
-			titleHeader="Cadastro de mercadoria" 
-			subTitleHeader="Preencha os campos e cadastre um produto."
-			textCancelButton="Cancelar cadastro"
-		>
+  const navigate = useNavigate();
 
-			<FormStyled>
-				<InputImage>
-					<img src={addImageItem} alt="" />
-					<input type="file" hidden />
-				</InputImage>
+  async function back() {
+    navigate("/estoque");
+  }
 
-				<OutrosInputs>
-					<GenericInput 
-						textLabel="Nome"
-						name="name"
-					/>
+  async function createItem() {
+    if (name.trim() === "") {
+      return;
+    }
 
-					<InputDuplo>
-						<GenericInput 
-							textLabel="Preço"
-							name="price"
-							inputType="number"
-							placeholder="0,00"
-							textSide="R$"
-						/>
-						<GenericInput 
-							textLabel="Estoque"
-							name="quant"
-							inputType="number"
-							placeholder="0"
-							textSide="unid."
-							sideOnRight={false}
-						/>
-					</InputDuplo>
-					
-				</OutrosInputs>
+    if (price <= 0.25) {
+      return;
+    }
 
-			</FormStyled> 
+    if (stock < 0) {
+      return;
+    }
 
-			<ButtonContainer>
-				<GenericButton text="Cadastrar produto" borderRadius={30} iconName="create" iconSize={36}/>
-			</ButtonContainer>
+    await api.post("/item/create", {
+      name,
+      price: parseFloat(price.toString()),
+      type: "DRINK",
+      avatar_url:
+        "https://www.zappas.com.br/wp-content/uploads/2020/04/Suco-de-Laranja-1.jpg",
+    });
 
-			
-		</Container>
-	);
-}
+    navigate("/estoque");
+  }
+
+  return (
+    <Container
+      titleHeader="Cadastro de mercadoria"
+      subTitleHeader="Preencha os campos e cadastre um produto."
+      textCancelButton="Cancelar cadastro"
+      onClickCancelButton={back}
+    >
+      <FormStyled>
+        <InputImage>
+          <img src={addImageItem} alt="" />
+          <input type="file" hidden />
+        </InputImage>
+
+        <OutrosInputs>
+          <GenericInput
+            textLabel="Nome"
+            name="name"
+            placeholder="Pastel de frango"
+            setTextInput={setName}
+          />
+
+          <InputDuplo>
+            <GenericInput
+              textLabel="Preço"
+              name="price"
+              inputType="number"
+              placeholder="0,00"
+              textSide="R$"
+              setTextInput={setPrice}
+            />
+            <GenericInput
+              textLabel="Estoque"
+              name="quant"
+              inputType="number"
+              placeholder="0"
+              textSide="unid."
+              sideOnRight={false}
+              setTextInput={setStock}
+            />
+          </InputDuplo>
+        </OutrosInputs>
+      </FormStyled>
+
+      <ButtonContainer>
+        <GenericButton
+          text="Cadastrar produto"
+          borderRadius={30}
+          iconName="add"
+          iconSize={36}
+          onClick={createItem}
+        />
+      </ButtonContainer>
+    </Container>
+  );
+};
 
 export default NewItemPage;

@@ -22,6 +22,7 @@ import {
   EstoqueText,
   QuantText,
   DeleteEditContainer,
+  ContainerClickStock,
 } from "./styles";
 
 interface ItemQuantCardProps {
@@ -29,56 +30,83 @@ interface ItemQuantCardProps {
   item?: IShopItem;
   addToCart?: (item: ICartItem) => void;
   editQuant?: boolean;
+  deleteItem?: (item_id: string) => void;
+  editItem?: (item_id: string) => void;
 }
-
-// TODO: Controle da quantidade
-
-// TODO: Rever cursor. esta no card inteiro
 
 const ItemQuantCard: React.FC<ItemQuantCardProps> = ({
   isEstoquePage = false,
   editQuant = true,
   item,
   addToCart,
+  deleteItem,
+  editItem,
   ...rest
 }) => {
   const [isClicked, setIsClicked] = useState<boolean>(false);
-  const [quantValue, setQuantValue] = useState<number>(0);
+  const [quantValue, setQuantValue] = useState<number>(
+    isEstoquePage ? item.amount : 0
+  );
 
   const handleChangeIsClickedState = () => {
     setIsClicked(isEstoquePage && !isClicked);
   };
 
+  async function saveAmount() {
+    await api.put(`/shop/admin/stock/${item.item_id}`, {
+      amount: quantValue,
+    });
+    window.location.reload();
+  }
+
   return (
-    <Container isEstoquePage={isEstoquePage} isClicked={isClicked} {...rest}>
-      <ImageInfoContainer>
-        <img src={item.item.avatar_url} />
-        <InfoContainer isClicked={isClicked}>
-          <NameText>{item.item.name}</NameText>
-          <ValueText>
-            {new Intl.NumberFormat("pt-BR", {
-              style: "currency",
-              currency: "BRL",
-            }).format(item.item.price)}
-          </ValueText>
-          <EstoqueText>{item.amount} unid.</EstoqueText>
-        </InfoContainer>
-      </ImageInfoContainer>
+    <Container isEstoquePage={false} isClicked={isClicked} {...rest}>
+      <ContainerClickStock
+        onClick={handleChangeIsClickedState}
+        isEstoquePage={isEstoquePage}
+        isClicked={isClicked}
+      >
+        <ImageInfoContainer>
+          <img src={item.item.avatar_url} />
+          <InfoContainer isClicked={isClicked}>
+            <NameText>{item.item.name}</NameText>
+            <ValueText>
+              {new Intl.NumberFormat("pt-BR", {
+                style: "currency",
+                currency: "BRL",
+              }).format(item.item.price)}
+            </ValueText>
+            <EstoqueText>{item.amount} unid.</EstoqueText>
+          </InfoContainer>
+        </ImageInfoContainer>
+      </ContainerClickStock>
 
       {isClicked && (
         <DeleteEditContainer>
-          <ActionButtonIcon
-            bgColor="semantic-red"
-            name="delete"
-            size={50}
-            color="white"
-          />
-          <ActionButtonIcon
-            bgColor="primary"
-            name="edit"
-            size={50}
-            color="white"
-          />
+          <ButtonPassPage
+            onClick={() => {
+              deleteItem(item.item_id);
+            }}
+          >
+            <ActionButtonIcon
+              bgColor="semantic-red"
+              name="delete"
+              size={45}
+              color="white"
+            />
+          </ButtonPassPage>
+          <ButtonPassPage
+            onClick={() => {
+              editItem(item.item_id);
+            }}
+          >
+            <ActionButtonIcon
+              bgColor="primary"
+              name="edit"
+              size={45}
+              color="white"
+            />
+          </ButtonPassPage>
         </DeleteEditContainer>
       )}
 
@@ -103,7 +131,7 @@ const ItemQuantCard: React.FC<ItemQuantCardProps> = ({
             <QuantText>{quantValue}</QuantText>
             <ButtonPassPage
               onClick={() => {
-                if (quantValue >= item.amount) {
+                if (!isEstoquePage && quantValue >= item.amount) {
                   return;
                 }
 
@@ -119,18 +147,22 @@ const ItemQuantCard: React.FC<ItemQuantCardProps> = ({
             </ButtonPassPage>
           </QuantContainer>
           <ActionButtonText
-            onClick={() => {
-              addToCart({
-                item_id: item.item_id,
-                amount: quantValue,
-                item: {
-                  avatar_url: item.item.avatar_url,
-                  name: item.item.name,
-                  price: item.item.price,
-                  type: item.item.type,
-                },
-              });
-            }}
+            onClick={
+              isEstoquePage
+                ? saveAmount
+                : () => {
+                    addToCart({
+                      item_id: item.item_id,
+                      amount: quantValue,
+                      item: {
+                        avatar_url: item.item.avatar_url,
+                        name: item.item.name,
+                        price: item.item.price,
+                        type: item.item.type,
+                      },
+                    });
+                  }
+            }
             bgColor="primary"
           >
             {isEstoquePage ? "Salvar" : "Adicionar"}

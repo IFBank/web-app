@@ -75,6 +75,7 @@ const EncomendaPedidoPage: React.FC<EncomendaPedidoPageProps> = () => {
 
     async function getOrders() {
       const response = await api.get(`/order/${order_id}`);
+      console.log(response);
 
       if (!response.data) {
         navigate("/");

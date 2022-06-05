@@ -25,8 +25,7 @@ export const Container = styled.div<
 
   ${({ isEstoquePage }) => isEstoquePage && "cursor: pointer;"}
   ${({ isClicked }) => isClicked && "background: var(--linear-secondary);"}
-
-  padding: 12px 18px;
+  margin-bottom: 8px;
 
   border: #32dc32 solid 2px;
   ${({ isClicked }) => isClicked && "border: none;"}
@@ -41,6 +40,21 @@ export const Container = styled.div<
   }
 `;
 
+export const ContainerClickStock = styled.div<
+  IContainerProps & IChanceOnClickComponentsProps
+>`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex: 1;
+
+  ${({ isEstoquePage }) => isEstoquePage && "cursor: pointer;"}
+  ${({ isClicked }) => isClicked && "background: var(--linear-secondary);"}
+
+  border-radius: 8px;
+  padding: 12px 18px;
+`;
+
 export const DeleteEditContainer = styled.div`
   display: flex;
 
@@ -48,7 +62,7 @@ export const DeleteEditContainer = styled.div`
   justify-content: space-between;
 
   > * {
-    margin-left: 24px;
+    margin: 0 18px;
   }
 `;
 
@@ -90,6 +104,8 @@ export const ActionContainer = styled.div<IChanceOnClickComponentsProps>`
   flex-direction: column;
 
   width: 100px;
+
+  margin: 0 18px;
 `;
 
 export const QuantContainer = styled.div`

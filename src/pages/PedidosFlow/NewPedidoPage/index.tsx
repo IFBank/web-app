@@ -37,6 +37,7 @@ const NewPedidoPage: React.FC<NewPedidoPageProps> = () => {
   const [cart, setCart] = useState([]);
   const [loading, setLoading] = useState(true);
   const [itensShop, setItensShop] = useState<IShopItem[]>();
+  const [search, setSearch] = useState("");
 
   const navigate = useNavigate();
 
@@ -126,7 +127,7 @@ const NewPedidoPage: React.FC<NewPedidoPageProps> = () => {
       textCancelButton="Cancelar pedido"
       onClickCancelButton={backPage}
     >
-      <BarraPesquisa>
+      <BarraPesquisa setSearch={setSearch} search={search}>
         <BuyCircleButton>
           <MaterialIcon
             navigateToConfirmOrder={navigateToConfirmOrder}
@@ -139,13 +140,27 @@ const NewPedidoPage: React.FC<NewPedidoPageProps> = () => {
 
       <Content>
         {!loading
-          ? itensShop.map((item) => (
-              <ItemQuantCard
-                key={item.item_id}
-                item={item}
-                addToCart={addToCart}
-              />
-            ))
+          ? itensShop.map((item) => {
+              if (item.amount <= 0) {
+                return null;
+              }
+
+              if (search.trim() !== "") {
+                if (
+                  !item.item.name.toUpperCase().includes(search.toUpperCase())
+                ) {
+                  return null;
+                }
+              }
+
+              return (
+                <ItemQuantCard
+                  key={item.item_id}
+                  item={item}
+                  addToCart={addToCart}
+                />
+              );
+            })
           : null}
       </Content>
     </Container>
