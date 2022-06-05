@@ -36,12 +36,19 @@ const EncomendasPage: React.FC<EncomendasPageProps> = () => {
   const [orders, setOrders] = useState<IOrders[]>([]);
   const [search, setSearch] = useState("");
 
+  const [loading, setLoading] = useState(true);
+
   let index = 1;
 
   React.useEffect(() => {
+    if (!loading) {
+      return;
+    }
+
     async function getOrders() {
       const response = await api.get(`/order/all`);
       setOrders(response.data);
+      setLoading(false);
     }
 
     getOrders();
@@ -62,47 +69,51 @@ const EncomendasPage: React.FC<EncomendasPageProps> = () => {
         </ButtonPassPage>
         {/*@ts-ignore*/}
         <PedidosGrid>
-          {orders.map((order) => {
-            if (search.trim() !== "") {
-              if (!order.name.toUpperCase().includes(search.toUpperCase())) {
-                console.log(search, order.name);
+          {!loading
+            ? orders.map((order) => {
+                if (search.trim() !== "") {
+                  if (
+                    !order.name.toUpperCase().includes(search.toUpperCase())
+                  ) {
+                    console.log(search, order.name);
 
-                return null;
-              }
-            }
+                    return null;
+                  }
+                }
 
-            index += 1;
+                index += 1;
 
-            let gradient = "primary";
+                let gradient = "primary";
 
-            if (index % 2 === 1) {
-              gradient = "secondary";
-            }
+                if (index % 2 === 1) {
+                  gradient = "secondary";
+                }
 
-            let total = 0;
+                let total = 0;
 
-            order.order_item.map((currentItem) => {
-              total += currentItem.amount * currentItem.item.price;
-            });
+                order.order_item.map((currentItem) => {
+                  total += currentItem.amount * currentItem.item.price;
+                });
 
-            const dateFormatted = moment
-              .tz(order.withdraw_date, "America/Campo_Grande")
-              .format("HH:mm:ss");
+                const dateFormatted = moment
+                  .tz(order.withdraw_date, "America/Campo_Grande")
+                  .format("HH:mm:ss");
 
-            return (
-              <PedidoCard
-                key={order.id}
-                id={order.id}
-                gradient={gradient as "primary" | "secondary"}
-                name={order.name.toUpperCase()}
-                price_formatted={new Intl.NumberFormat("pt-BR", {
-                  style: "currency",
-                  currency: "BRL",
-                }).format(total)}
-                withdraw_date_formatted={dateFormatted}
-              />
-            );
-          })}
+                return (
+                  <PedidoCard
+                    key={order.id}
+                    id={order.id}
+                    gradient={gradient as "primary" | "secondary"}
+                    name={order.name.toUpperCase()}
+                    price_formatted={new Intl.NumberFormat("pt-BR", {
+                      style: "currency",
+                      currency: "BRL",
+                    }).format(total)}
+                    withdraw_date_formatted={dateFormatted}
+                  />
+                );
+              })
+            : null}
         </PedidosGrid>
 
         <ButtonPassPage>

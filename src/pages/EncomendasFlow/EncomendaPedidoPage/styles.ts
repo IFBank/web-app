@@ -34,6 +34,8 @@ export const PedidoInfoContainer = styled.div`
 export const PedidoTitle = styled.p`
   text-align: center;
   margin-bottom: 24px;
+  font-weight: bold;
+  font-size: 24px;
 `;
 
 export const ItemsContainer = styled.div`
@@ -41,24 +43,24 @@ export const ItemsContainer = styled.div`
 
   flex-wrap: wrap;
   padding: 16px 32px;
-	text-align: center;
-	margin-bottom: 24px;
+  text-align: center;
+  margin-bottom: 24px;
 
-	font-family: Ubuntu;
-	font-size: 24px;
-	font-weight: 700;
+  font-family: Ubuntu;
+  font-size: 24px;
+  font-weight: 700;
 `;
 
 export const InfoPedidoContainer = styled.div`
-	display: flex;
-	flex: 1;
-	justify-content: space-between;
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
 
-	> p {
-		font-family: Mukta;
-		font-size: 18px;
-		font-weight: 600;
-	}
+  > p {
+    font-family: Mukta;
+    font-size: 18px;
+    font-weight: 400;
+  }
 `;
 
 export const GenericButtonEncomendas = styled(GenericButton)`
