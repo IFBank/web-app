@@ -28,6 +28,7 @@ interface ItemQuantCardProps {
   isEstoquePage?: boolean;
   item?: IShopItem;
   addToCart?: (item: ICartItem) => void;
+  editQuant?: boolean;
 }
 
 // TODO: Controle da quantidade
@@ -36,6 +37,7 @@ interface ItemQuantCardProps {
 
 const ItemQuantCard: React.FC<ItemQuantCardProps> = ({
   isEstoquePage = false,
+  editQuant = true,
   item,
   addToCart,
   ...rest
@@ -80,54 +82,61 @@ const ItemQuantCard: React.FC<ItemQuantCardProps> = ({
         </DeleteEditContainer>
       )}
 
-      <ActionContainer isClicked={isClicked}>
-        <QuantContainer>
-          <ButtonPassPage
-            onClick={() => {
-              if (quantValue <= 0) {
-                return;
-              }
-              setQuantValue(quantValue - 1);
-            }}
-          >
-            <ActionButtonIcon
-              bgColor="semantic-red"
-              name="remove"
-              size={30}
-              color="white"
-            />
-          </ButtonPassPage>
-          <QuantText>{quantValue}</QuantText>
-          <ButtonPassPage
-            onClick={() => {
-              if (quantValue >= item.amount) {
-                return;
-              }
+      {editQuant ? (
+        <ActionContainer isClicked={isClicked}>
+          <QuantContainer>
+            <ButtonPassPage
+              onClick={() => {
+                if (quantValue <= 0) {
+                  return;
+                }
+                setQuantValue(quantValue - 1);
+              }}
+            >
+              <ActionButtonIcon
+                bgColor="semantic-red"
+                name="remove"
+                size={30}
+                color="white"
+              />
+            </ButtonPassPage>
+            <QuantText>{quantValue}</QuantText>
+            <ButtonPassPage
+              onClick={() => {
+                if (quantValue >= item.amount) {
+                  return;
+                }
 
-              setQuantValue(quantValue + 1);
+                setQuantValue(quantValue + 1);
+              }}
+            >
+              <ActionButtonIcon
+                bgColor="primary"
+                name="add"
+                size={30}
+                color="white"
+              />
+            </ButtonPassPage>
+          </QuantContainer>
+          <ActionButtonText
+            onClick={() => {
+              addToCart({
+                item_id: item.item_id,
+                amount: quantValue,
+                item: {
+                  avatar_url: item.item.avatar_url,
+                  name: item.item.name,
+                  price: item.item.price,
+                  type: item.item.type,
+                },
+              });
             }}
+            bgColor="primary"
           >
-            <ActionButtonIcon
-              bgColor="primary"
-              name="add"
-              size={30}
-              color="white"
-            />
-          </ButtonPassPage>
-        </QuantContainer>
-
-        <ActionButtonText
-          onClick={() => {
-            addToCart({
-              item_id: item.item_id,
-              amount: quantValue,
-            });
-          }}
-          bgColor="primary"
-        >
-          {isEstoquePage ? "Salvar" : "Adicionar"}
-        </ActionButtonText>
-      </ActionContainer>
+            {isEstoquePage ? "Salvar" : "Adicionar"}
+          </ActionButtonText>
+        </ActionContainer>
+      ) : null}
     </Container>
   );
 };

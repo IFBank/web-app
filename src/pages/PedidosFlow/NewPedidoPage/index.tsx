@@ -13,6 +13,7 @@ interface NewPedidoPageProps {}
 export interface ICartItem {
   item_id: string;
   amount: number;
+  item: IItem;
 }
 
 export interface IShopItem {
@@ -39,6 +40,10 @@ const NewPedidoPage: React.FC<NewPedidoPageProps> = () => {
 
   const navigate = useNavigate();
 
+  async function backPage() {
+    navigate("/pedidos");
+  }
+
   async function addToCart(item: ICartItem) {
     if (item.amount <= 0) {
       return;
@@ -47,24 +52,45 @@ const NewPedidoPage: React.FC<NewPedidoPageProps> = () => {
     const item_id = item.item_id;
 
     let newItem = {
-      [item_id]: item.amount,
+      [item_id]: {
+        amount: item.amount,
+        item: {
+          avatar_url: item.item.avatar_url,
+          name: item.item.name,
+          price: item.item.price,
+        },
+      },
     };
 
-    const newCart = [];
+    const itemFound = cart.some((element) => {
+      if (Object.keys(element)[0] === item.item_id) {
+        return true;
+      }
 
-    cart.map((itens) => {
-      if (itens.item_id === item_id) {
-        newItem = {
-          [item_id]: item.amount + itens.amount,
-        };
-      } else {
-        newItem = {
-          [item_id]: item.amount,
+      return false;
+    });
+
+    if (!itemFound) {
+      setCart([...cart, newItem]);
+      return;
+    }
+
+    const newCart = cart.map((itemCart) => {
+      if (Object.keys(itemCart)[0] === item.item_id) {
+        itemCart = {
+          [item_id]: {
+            amount:
+              (Object.values(itemCart)[0]["amount"] as number) + item.amount,
+            item: {
+              avatar_url: Object.values(itemCart)[0]["avatar_url"],
+              name: Object.values(itemCart)[0]["name"],
+              price: Object.values(itemCart)[0]["price"],
+            },
+          },
         };
       }
 
-      newCart.push(newItem);
-      console.log(newCart);
+      return itemCart;
     });
 
     setCart(newCart);
@@ -82,11 +108,6 @@ const NewPedidoPage: React.FC<NewPedidoPageProps> = () => {
         navigate("/");
       }
 
-      // let orderSumTotal = 0;
-      // response.data.order_item.map(async (item) => {
-      //   orderSumTotal += orderTotal + item.amount * item.item.price;
-      // });
-
       setItensShop(response.data);
       setLoading(false);
     }
@@ -94,15 +115,25 @@ const NewPedidoPage: React.FC<NewPedidoPageProps> = () => {
     getItensShop();
   }, []);
 
+  function navigateToConfirmOrder() {
+    navigate("/pedidos/confirm", { state: cart });
+  }
+
   return (
     <Container
       titleHeader="Pedidos"
       subTitleHeader="Crie aqui os pedidos requisitados pessoalmente"
       textCancelButton="Cancelar pedido"
+      onClickCancelButton={backPage}
     >
       <BarraPesquisa>
         <BuyCircleButton>
-          <MaterialIcon color="white" size={28} name="shopping_cart" />
+          <MaterialIcon
+            navigateToConfirmOrder={navigateToConfirmOrder}
+            color="white"
+            size={28}
+            name="shopping_cart"
+          />
         </BuyCircleButton>
       </BarraPesquisa>
 
