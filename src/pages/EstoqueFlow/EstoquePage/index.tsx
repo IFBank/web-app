@@ -58,12 +58,12 @@ const EstoquePage: React.FC<EstoquePageProps> = () => {
       subTitleHeader="Trabalhe aqui com as funcionalidades de criação, exclusão e atualização das mercadorias."
     >
       <ButtonsContainer>
-        <GenericButton
+        {/*<GenericButton
           text="Balanço geral"
           iconSize={30}
           iconName="table_chart"
           borderRadius={300}
-        />
+        />*/}
         <GenericButton
           text="Cadastrar produto"
           iconSize={30}
