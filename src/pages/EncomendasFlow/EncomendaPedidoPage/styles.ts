@@ -35,7 +35,7 @@ export const PedidoTitle = styled.p`
   text-align: center;
   margin-bottom: 24px;
   font-weight: bold;
-  font-size: 24px;
+  font-size: 26px;
 `;
 
 export const ItemsContainer = styled.div`
@@ -58,8 +58,13 @@ export const InfoPedidoContainer = styled.div`
 
   > p {
     font-family: Mukta;
-    font-size: 18px;
+    font-size: 30px;
     font-weight: 400;
+    > span {
+      font-family: Mukta;
+      font-size: 30px;
+      font-weight: 400;
+    }
   }
 `;
 
