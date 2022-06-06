@@ -15,29 +15,92 @@ import {
   EditItemPage,
   BalancoPage,
 } from "./pages/EstoqueFlow";
+import { AuthContext, AuthProvider } from "./context/AuthContext";
+import { useContext } from "react";
+import { RequireAuth } from "./RequiredAuth";
 
-// TODO: Rotas privadas e etc.
 function App() {
   return (
-    <Routes>
-      {/* <Route path="/" element={<LoginPage />} /> */}
-      <Route path="/" element={<PedidosPage />} />
-      <Route path="/dashboard" element={<DashboardPage />} />
+    <AuthProvider>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <RequireAuth>
+              <></>
+            </RequireAuth>
+          }
+        />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
 
-      <Route path="/pedidos" element={<PedidosPage />} />
-      <Route path="/pedidos/new" element={<NewPedidoPage />} />
-      <Route path="/pedidos/confirm" element={<PedidoConfirmPage />} />
+        <Route
+          path="/pedidos"
+          element={
+            <RequireAuth>
+              <PedidosPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/pedidos/new"
+          element={
+            <RequireAuth>
+              <NewPedidoPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/pedidos/confirm"
+          element={
+            <RequireAuth>
+              <PedidoConfirmPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/encomendas"
+          element={
+            <RequireAuth>
+              <EncomendasPage />
+            </RequireAuth>
+          }
+        />
 
-      <Route path="/encomendas" element={<EncomendasPage />} />
-      <Route path="/encomendas/:id_pedido" element={<EncomendaPedidoPage />} />
-
-      <Route path="/estoque" element={<EstoquePage />} />
-      <Route path="/estoque/new" element={<NewItemPage />} />
-      <Route path="/estoque/edit/:id_item" element={<EditItemPage />} />
-      <Route path="/estoque/balanco" element={<BalancoPage />} />
-
-      <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
+        <Route
+          path="/encomendas/:id_pedido"
+          element={
+            <RequireAuth>
+              <EncomendaPedidoPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/estoque"
+          element={
+            <RequireAuth>
+              <EstoquePage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/estoque/new"
+          element={
+            <RequireAuth>
+              <NewItemPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/estoque/edit/:id_item"
+          element={
+            <RequireAuth>
+              <EditItemPage />
+            </RequireAuth>
+          }
+        />
+      </Routes>
+    </AuthProvider>
   );
 }
 
