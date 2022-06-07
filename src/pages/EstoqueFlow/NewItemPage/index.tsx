@@ -23,7 +23,7 @@ interface NewItemPageProps {}
 const NewItemPage: React.FC<NewItemPageProps> = () => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState(0.0);
-  const [stock, setStock] = useState(0);
+  const [type, setType] = useState("FOOD");
   const [loadingCreate, setLoadingCreate] = useState(false);
 
   const navigate = useNavigate();
@@ -34,14 +34,12 @@ const NewItemPage: React.FC<NewItemPageProps> = () => {
 
   async function createItem() {
     if (name.trim() === "") {
+      toast.error("Precisa ter um nome!");
       return;
     }
 
     if (price <= 0.25) {
-      return;
-    }
-
-    if (stock < 0) {
+      toast.error("Preço precisa ser maior que R$0,25");
       return;
     }
 
@@ -50,7 +48,7 @@ const NewItemPage: React.FC<NewItemPageProps> = () => {
       .post("/item/create", {
         name,
         price: parseFloat(price.toString()),
-        type: "FOOD",
+        type,
         avatar_url:
           "https://pubimg.band.uol.com.br/files/2c0933a3fb3b6946e074.png",
       })
@@ -99,7 +97,7 @@ const NewItemPage: React.FC<NewItemPageProps> = () => {
               textSide="R$"
               setTextInput={setPrice}
             />
-            <TypeItem />
+            <TypeItem setType={setType} />
           </InputDuplo>
         </OutrosInputs>
       </FormStyled>

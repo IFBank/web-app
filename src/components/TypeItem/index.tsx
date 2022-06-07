@@ -1,32 +1,34 @@
-import React from 'react';
+import React from "react";
 
-import MaterialIcon from '../MaterialIcon';
+import MaterialIcon from "../MaterialIcon";
 
-import {
-	Container
-} from './styles'
+import { Container } from "./styles";
 
 interface TypeItemProps {
-};
+  type?: "FOOD" | "DRINK";
+  setType?: (type: any) => void;
+}
 
 // TODO: Corrigir icone
 // TODO: Estilizar select
 
-const TypeItem: React.FC<TypeItemProps> = ({ ... rest }) => {
-	
-	return (
-		<Container { ... rest } > 
-			<MaterialIcon name="format_list_bulleted" size={26} color="#32CD32" />
+const TypeItem: React.FC<TypeItemProps> = ({ setType, type, ...rest }) => {
+  async function handleChange(e: any) {
+    console.log(e.target.value);
 
-			<select name="type" id="type">
-				<option value="food">Comida</option>
-				<option value="drink">Bebida</option>
-			</select>
+    setType(e.target.value);
+  }
 
-		</Container> 
-	);
+  return (
+    <Container {...rest}>
+      <MaterialIcon name="format_list_bulleted" size={26} color="#32CD32" />
 
+      <select defaultValue={type} onChange={handleChange} name="type" id="type">
+        <option value="FOOD">Comida</option>
+        <option value="DRINK">Bebida</option>
+      </select>
+    </Container>
+  );
 };
 
 export default TypeItem;
-

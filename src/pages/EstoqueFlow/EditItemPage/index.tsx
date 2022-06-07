@@ -25,7 +25,7 @@ const NewItemPage: React.FC<NewItemPageProps> = () => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState(0.0);
   const [avatarUrl, setAvatarUrl] = useState("");
-  const [stock, setStock] = useState(0);
+  const [type, setType] = useState("FOOD");
 
   const navigate = useNavigate();
 
@@ -40,17 +40,14 @@ const NewItemPage: React.FC<NewItemPageProps> = () => {
       return;
     }
 
-    if (stock < 0) {
-      return;
-    }
-
     setLoadingEdit(true);
     const editItemToast = api
       .put(`/item/admin/edit/${item_id}`, {
         name,
         price: parseFloat(price.toString()),
-        // type: "DRINK",
-        // avatar_url: "https://www.tibs.org.tw/images/default.jpg",
+        type,
+        avatar_url:
+          "https://img.itdg.com.br/tdg/images/recipes/000/098/564/333992/333992_original.jpg",
       })
       .finally(() => {
         setLoadingEdit(false);
@@ -85,7 +82,7 @@ const NewItemPage: React.FC<NewItemPageProps> = () => {
           setName(response.data.name);
           setPrice(response.data.price);
           setAvatarUrl(response.data.avatar_url);
-          setStock(response.data.shop_item.amount);
+          setType(response.data.type);
         })
         .finally(() => {
           setLoading(false);
@@ -137,7 +134,7 @@ const NewItemPage: React.FC<NewItemPageProps> = () => {
                 defaultValue={price}
                 setTextInput={setPrice}
               />
-              <TypeItem />
+              <TypeItem type={type as "FOOD" | "DRINK"} setType={setType} />
             </InputDuplo>
           </OutrosInputs>
         </FormStyled>
