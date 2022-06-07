@@ -6,12 +6,14 @@ export const Container = styled.div`
 	border-radius: 6px;	
 
 	display: flex;
-	flex: 0.1;
+	align-items: center;
+
+	width: max-content;
+	height: min-content;
 
 	padding: 5px 10px;
 
 	> select {
 		margin-left: 10px;
-		width: 100%;
 	}
 `;
