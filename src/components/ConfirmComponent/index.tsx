@@ -6,17 +6,30 @@ import { Container, IconButton } from "./styles";
 interface ComponentProps {
   onCancel?: () => void;
   onConfirm?: () => void;
+  loading?: boolean;
 }
 
 const Component: React.FC<ComponentProps> = ({
   onCancel,
   onConfirm,
+  loading = false,
   ...rest
 }) => {
   return (
-    <Container {...rest}>
+    <Container
+      style={{
+        opacity: loading ? 0.5 : 1,
+        cursor: loading ? "default" : "pointer",
+      }}
+      {...rest}
+    >
       <span>Confirmar? </span>
-      <ButtonPassPage onClick={onCancel}>
+      <ButtonPassPage
+        style={{
+          cursor: loading ? "default" : "pointer",
+        }}
+        onClick={loading ? null : onCancel}
+      >
         <IconButton
           bgColor="semantic-red"
           name="clear"
@@ -24,7 +37,12 @@ const Component: React.FC<ComponentProps> = ({
           color="white"
         />
       </ButtonPassPage>
-      <ButtonPassPage onClick={onConfirm}>
+      <ButtonPassPage
+        style={{
+          cursor: loading ? "default" : "pointer",
+        }}
+        onClick={loading ? null : onConfirm}
+      >
         <IconButton bgColor="primary" name="check" size={40} color="white" />
       </ButtonPassPage>
     </Container>

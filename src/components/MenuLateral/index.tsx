@@ -40,7 +40,7 @@ const MenuLateral: React.FC<MenuLateralProps> = () => {
           navigate("/login");
         }}
       >
-        <ExitButton name="logout" size={36} color="#FEFFFE" />
+        <ExitButton name="logout" size={36} color="#fffefe" />
       </ExitButtonContainer>
     </Container>
   );

@@ -8,8 +8,9 @@ import GenericButton from "../../../components/GenericButton";
 
 import { Container, ButtonsContainer, ItemsContainer } from "./styles";
 import { api } from "../../../services/api";
-import { IItem, IShopItem } from "../../PedidosFlow/NewPedidoPage";
+import { IItem } from "../../PedidosFlow/NewPedidoPage";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 interface EstoquePageProps {}
 
@@ -23,6 +24,7 @@ const EstoquePage: React.FC<EstoquePageProps> = () => {
   const [shopItems, setShopItems] = useState<IShopItems[]>();
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
+  const [loadingDelete, setLoadingDelete] = useState(false);
   const navigate = useNavigate();
 
   async function createNewItem() {
@@ -30,8 +32,24 @@ const EstoquePage: React.FC<EstoquePageProps> = () => {
   }
 
   async function deleteItem(item_id: string) {
-    await api.delete(`/item/admin/delete/${item_id}`);
-    window.location.reload();
+    setLoadingDelete(true);
+    const deleteToast = api
+      .delete(`/item/admin/delete/${item_id}`)
+      .then(() => {
+        const newShopItens = shopItems.filter(
+          (item) => item.item_id !== item_id
+        );
+        setShopItems(newShopItens);
+      })
+      .finally(() => {
+        setLoadingDelete(false);
+      });
+
+    toast.promise(deleteToast, {
+      pending: "Deletando item...",
+      success: "Item deletado!",
+      error: "Algum erro encontrado...",
+    });
   }
 
   async function editItem(item_id: string) {
@@ -44,9 +62,21 @@ const EstoquePage: React.FC<EstoquePageProps> = () => {
     }
 
     async function getItems() {
-      const { data } = await api.get("/shop/list");
-      setShopItems(data);
-      setLoading(false);
+      const getItemsToast = api
+        .get("/shop/list")
+        .then((response) => {
+          const { data } = response;
+          setShopItems(data);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+
+      toast.promise(getItemsToast, {
+        pending: "Buscando no estoque...",
+        success: "Items encontrados!",
+        error: "Algum erro encontrado...",
+      });
     }
 
     getItems();
@@ -102,6 +132,7 @@ const EstoquePage: React.FC<EstoquePageProps> = () => {
                   key={itemShop.item_id}
                   deleteItem={deleteItem}
                   editItem={editItem}
+                  loadingDelete={loadingDelete}
                 />
               );
             })}

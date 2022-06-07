@@ -7,6 +7,7 @@ import ItemQuantCard from "../../../components/ItemQuantCard";
 import { Container, BuyCircleButton, Content } from "./styles";
 import { useNavigate } from "react-router-dom";
 import { api } from "../../../services/api";
+import { toast } from "react-toastify";
 
 interface NewPedidoPageProps {}
 
@@ -45,8 +46,9 @@ const NewPedidoPage: React.FC<NewPedidoPageProps> = () => {
     navigate("/pedidos");
   }
 
-  async function addToCart(item: ICartItem) {
+  async function addToCart(item: ICartItem, limitItemAmount: number) {
     if (item.amount <= 0) {
+      toast.error("Não pode adicionar 0");
       return;
     }
 
@@ -73,19 +75,28 @@ const NewPedidoPage: React.FC<NewPedidoPageProps> = () => {
 
     if (!itemFound) {
       setCart([...cart, newItem]);
+      toast.success(`+${item.amount} ${item.item.name}`);
       return;
     }
 
+    let limit = false;
+
     const newCart = cart.map((itemCart) => {
+      if (
+        (Object.values(itemCart)[0]["amount"] as number) + item.amount >
+        limitItemAmount
+      ) {
+        limit = true;
+      }
       if (Object.keys(itemCart)[0] === item.item_id) {
         itemCart = {
           [item_id]: {
             amount:
               (Object.values(itemCart)[0]["amount"] as number) + item.amount,
             item: {
-              avatar_url: Object.values(itemCart)[0]["avatar_url"],
-              name: Object.values(itemCart)[0]["name"],
-              price: Object.values(itemCart)[0]["price"],
+              avatar_url: Object.values(itemCart)[0]["item"]["avatar_url"],
+              name: Object.values(itemCart)[0]["item"]["name"],
+              price: Object.values(itemCart)[0]["item"]["price"],
             },
           },
         };
@@ -94,7 +105,13 @@ const NewPedidoPage: React.FC<NewPedidoPageProps> = () => {
       return itemCart;
     });
 
+    if (limit) {
+      toast.error("Erro ao adicionar item!");
+      return;
+    }
+
     setCart(newCart);
+    toast.success(`+${item.amount} ${item.item.name}`);
   }
 
   useEffect(() => {
@@ -103,20 +120,38 @@ const NewPedidoPage: React.FC<NewPedidoPageProps> = () => {
     }
 
     async function getItensShop() {
-      const response = await api.get(`/shop/list`);
+      const getItensToast = api
+        .get(`/shop/list`)
+        .then((response) => {
+          if (!response.data) {
+            navigate("/");
+          }
+          setItensShop(response.data);
 
-      if (!response.data) {
-        navigate("/");
-      }
+          const toastNoItems = response.data.filter((item) => item.amount > 0);
+          if (toastNoItems.length <= 0) {
+            toast.info("Sem produtos no momento");
+          }
+        })
+        .finally(() => {
+          setLoading(false);
+        });
 
-      setItensShop(response.data);
-      setLoading(false);
+      toast.promise(getItensToast, {
+        pending: "Buscando items...",
+        success: "Items encontrados!",
+        error: "Algum erro encontrado...",
+      });
     }
 
     getItensShop();
   }, []);
 
   function navigateToConfirmOrder() {
+    if (cart.length <= 0) {
+      toast.error("Sem items no carrinho!");
+      return;
+    }
     navigate("/pedidos/confirm", { state: cart });
   }
 

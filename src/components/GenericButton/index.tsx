@@ -10,6 +10,7 @@ interface GenericButtonProps {
   iconName?: string;
   iconSize?: number;
   onClick?: () => {};
+  loading?: boolean;
 }
 
 const GenericButton: React.FC<GenericButtonProps> = ({
@@ -20,14 +21,19 @@ const GenericButton: React.FC<GenericButtonProps> = ({
   iconName,
   iconSize = 20,
   onClick,
+  loading = false,
   ...rest
 }) => {
   return (
     <Container
-      onClick={onClick}
+      onClick={loading ? null : onClick}
       fontColor={fontColor}
       backgroundColor={`--linear-${gradient}`}
       borderRadius={borderRadius}
+      style={{
+        opacity: loading ? 0.5 : 1,
+        cursor: loading ? "default" : "pointer",
+      }}
       {...rest}
     >
       {iconName && (

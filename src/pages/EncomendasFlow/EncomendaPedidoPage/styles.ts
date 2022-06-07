@@ -58,11 +58,11 @@ export const InfoPedidoContainer = styled.div`
 
   > p {
     font-family: Mukta;
-    font-size: 30px;
+    font-size: 20px;
     font-weight: 400;
     > span {
       font-family: Mukta;
-      font-size: 30px;
+      font-size: 20px;
       font-weight: 400;
     }
   }

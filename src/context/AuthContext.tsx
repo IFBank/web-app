@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { createContext, ReactNode } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { api } from "../services/api";
 
 type SignInCredentials = {
   email: string;
   password: string;
+  setLoadingLogin?: (login: any) => void;
 };
 
 type AuthContextData = {
@@ -25,7 +27,7 @@ export async function signOut() {
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const navigate = useNavigate();
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     async function verifyToken() {
@@ -46,25 +48,38 @@ export function AuthProvider({ children }: AuthProviderProps) {
     verifyToken();
   }, []);
 
-  async function signIn({ email, password }: SignInCredentials) {
+  async function signIn({
+    email,
+    password,
+    setLoadingLogin,
+  }: SignInCredentials) {
     try {
-      const response = await api.post("/user/authenticate", {
-        email,
-        password,
+      const signInToast = api
+        .post("/user/authenticate", {
+          //CRIAR ROTA PARA ADMIN SE LOGAR E USAR AQUI
+          email,
+          password,
+        })
+        .then(async (response) => {
+          await new Promise((resolve) => setTimeout(resolve, 3000));
+
+          localStorage.setItem("@IFTAKE:token", response.data.token);
+          api.defaults.headers[
+            "Authorization"
+          ] = `Bearer ${response.data.token}`;
+          setIsAuthenticated(true);
+          navigate("/pedidos");
+        })
+        .finally(() => {
+          setLoadingLogin(false);
+        });
+
+      toast.promise(signInToast, {
+        pending: "Tentando logar...",
+        success: "Logado com sucesso!",
+        error: "Algum erro encontrado...",
       });
-
-      if (email !== "maike@estudante.ifms.edu.br") {
-        throw new Error();
-      }
-
-      localStorage.setItem("@IFTAKE:token", response.data.token);
-      api.defaults.headers["Authorization"] = `Bearer ${response.data.token}`;
-      setIsAuthenticated(true);
-
-      navigate("/pedidos");
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   }
 
   return (

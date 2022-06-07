@@ -16,8 +16,6 @@ const Component: React.FC<IItem> = ({
   avatar_url,
   ...rest
 }) => {
-  console.log(avatar_url);
-
   return (
     <Container {...rest}>
       <Img src={avatar_url} />

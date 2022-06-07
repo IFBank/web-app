@@ -28,7 +28,6 @@ const BarraPesquisa: React.FC<BarraPesquisaProps> = ({
           type="text"
           placeholder="Pesquisar"
           value={search}
-          defaultValue=""
           onChange={setTextInput}
         />
       </InputContainer>

@@ -18,6 +18,7 @@ import {
 } from "./styles";
 import { api } from "../../../services/api";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 interface EncomendaPedidoPageProps {}
 
@@ -51,6 +52,7 @@ const EncomendaPedidoPage: React.FC<EncomendaPedidoPageProps> = () => {
   const [orderTotal, setOrderTotal] = useState(0);
   const [order, setOrder] = useState<IOrder>({} as IOrder);
   const [loading, setLoading] = useState(true);
+  const [loadingConfirmOrder, setLoadingConfirmOrder] = useState(false);
   const { id_pedido: order_id } = useParams();
 
   const navigate = useNavigate();
@@ -64,8 +66,19 @@ const EncomendaPedidoPage: React.FC<EncomendaPedidoPageProps> = () => {
   }
 
   async function confirmOrder() {
-    await api.get(`/order/admin/finish/${order_id}`);
-    navigate("/encomendas");
+    setLoadingConfirmOrder(true);
+    const confirmOrderToast = api
+      .get(`/order/admin/finish/${order_id}`)
+      .finally(() => {
+        setLoadingConfirmOrder(false);
+        navigate("/encomendas");
+      });
+
+    toast.promise(confirmOrderToast, {
+      pending: "Finalizando encomenda...",
+      success: "Encomenda finalizada!",
+      error: "Algum erro encontrado...",
+    });
   }
 
   React.useEffect(() => {
@@ -74,21 +87,32 @@ const EncomendaPedidoPage: React.FC<EncomendaPedidoPageProps> = () => {
     }
 
     async function getOrders() {
-      const response = await api.get(`/order/${order_id}`);
-      console.log(response);
+      setLoadingConfirmOrder(true);
+      const ordersToast = api
+        .get(`/order/${order_id}`)
+        .then((response) => {
+          if (!response.data) {
+            navigate("/");
+          }
 
-      if (!response.data) {
-        navigate("/");
-      }
+          let orderSumTotal = 0;
+          response.data.order_item.map(async (item) => {
+            orderSumTotal += orderTotal + item.amount * item.item.price;
+          });
 
-      let orderSumTotal = 0;
-      response.data.order_item.map(async (item) => {
-        orderSumTotal += orderTotal + item.amount * item.item.price;
+          setOrder(response.data);
+          setOrderTotal(orderSumTotal);
+        })
+        .finally(() => {
+          setLoading(false);
+          setLoadingConfirmOrder(false);
+        });
+
+      toast.promise(ordersToast, {
+        pending: "Buscando informações...",
+        success: "Busca finalizada!",
+        error: "Algum erro encontrado...",
       });
-
-      setOrder(response.data);
-      setOrderTotal(orderSumTotal);
-      setLoading(false);
     }
 
     getOrders();
@@ -152,17 +176,20 @@ const EncomendaPedidoPage: React.FC<EncomendaPedidoPageProps> = () => {
                   text="Cancelar"
                   gradient="semantic-red"
                   iconName="highlight_off"
+                  loading={loadingConfirmOrder}
                 />
                 <GenericButtonEncomendas
                   onClick={prepareConfirmOrder}
                   text="Confirmar"
                   iconName="check_circle_outline"
+                  loading={loadingConfirmOrder}
                 />
               </>
             ) : (
               <ConfirmComponent
                 onCancel={prepareConfirmOrder}
                 onConfirm={confirmOrder}
+                loading={loadingConfirmOrder}
               />
             )}
           </ConfirmConteiner>

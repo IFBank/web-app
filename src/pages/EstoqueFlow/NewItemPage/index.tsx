@@ -15,6 +15,7 @@ import {
 import addImageItem from "../../../assets/addImageItem.png";
 import { api } from "../../../services/api";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 interface NewItemPageProps {}
 
@@ -22,6 +23,7 @@ const NewItemPage: React.FC<NewItemPageProps> = () => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState(0.0);
   const [stock, setStock] = useState(0);
+  const [loadingCreate, setLoadingCreate] = useState(false);
 
   const navigate = useNavigate();
 
@@ -42,15 +44,27 @@ const NewItemPage: React.FC<NewItemPageProps> = () => {
       return;
     }
 
-    await api.post("/item/create", {
-      name,
-      price: parseFloat(price.toString()),
-      type: "DRINK",
-      avatar_url:
-        "https://www.zappas.com.br/wp-content/uploads/2020/04/Suco-de-Laranja-1.jpg",
-    });
+    setLoadingCreate(true);
+    const createToast = api
+      .post("/item/create", {
+        name,
+        price: parseFloat(price.toString()),
+        type: "FOOD",
+        avatar_url:
+          "https://pubimg.band.uol.com.br/files/2c0933a3fb3b6946e074.png",
+      })
+      .then(() => {
+        navigate("/estoque");
+      })
+      .finally(() => {
+        setLoadingCreate(false);
+      });
 
-    navigate("/estoque");
+    toast.promise(createToast, {
+      pending: "Criando item...",
+      success: "Criação finalizada!",
+      error: "Algum erro encontrado...",
+    });
   }
 
   return (
@@ -59,6 +73,7 @@ const NewItemPage: React.FC<NewItemPageProps> = () => {
       subTitleHeader="Preencha os campos e cadastre um produto."
       textCancelButton="Cancelar cadastro"
       onClickCancelButton={back}
+      loading={loadingCreate}
     >
       <FormStyled>
         <InputImage>
@@ -103,6 +118,7 @@ const NewItemPage: React.FC<NewItemPageProps> = () => {
           iconName="add"
           iconSize={36}
           onClick={createItem}
+          loading={loadingCreate}
         />
       </ButtonContainer>
     </Container>

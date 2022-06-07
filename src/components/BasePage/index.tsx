@@ -12,6 +12,7 @@ interface BasePageProps {
   subTitleHeader: string;
   textCancelButton?: string;
   onClickCancelButton?: () => {};
+  loading?: boolean;
 }
 
 const BasePage: React.FC<BasePageProps> = ({
@@ -20,6 +21,7 @@ const BasePage: React.FC<BasePageProps> = ({
   subTitleHeader,
   textCancelButton,
   onClickCancelButton,
+  loading = false,
   ...rest
 }) => {
   return (
@@ -32,8 +34,9 @@ const BasePage: React.FC<BasePageProps> = ({
           {textCancelButton && (
             <GenericButton
               gradient="semantic-red"
+              loading={loading}
               text={textCancelButton}
-              onClick={onClickCancelButton}
+              onClick={loading ? null : onClickCancelButton}
               borderRadius={30}
               iconName="clear"
               iconSize={28}

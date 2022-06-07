@@ -13,12 +13,14 @@ import {
 } from "./styles";
 import { useNavigate, useParams } from "react-router-dom";
 import { api } from "../../../services/api";
+import { toast } from "react-toastify";
 
 interface NewItemPageProps {}
 
 const NewItemPage: React.FC<NewItemPageProps> = () => {
   const { id_item: item_id } = useParams();
   const [loading, setLoading] = useState(true);
+  const [loadingEdit, setLoadingEdit] = useState(false);
   const [name, setName] = useState("");
   const [price, setPrice] = useState(0.0);
   const [avatarUrl, setAvatarUrl] = useState("");
@@ -28,10 +30,12 @@ const NewItemPage: React.FC<NewItemPageProps> = () => {
 
   async function editItem() {
     if (name.trim() === "") {
+      toast.error("Precisa ter um nome!");
       return;
     }
 
     if (price <= 0.25) {
+      toast.error("Preço precisa ser maior que R$0,25");
       return;
     }
 
@@ -39,15 +43,24 @@ const NewItemPage: React.FC<NewItemPageProps> = () => {
       return;
     }
 
-    await api.put(`/item/admin/edit/${item_id}`, {
-      name,
-      price: parseFloat(price.toString()),
-      // type: "DRINK",
-      // avatar_url:
-      //   "https://www.zappas.com.br/wp-content/uploads/2020/04/Suco-de-Laranja-1.jpg",
-    });
+    setLoadingEdit(true);
+    const editItemToast = api
+      .put(`/item/admin/edit/${item_id}`, {
+        name,
+        price: parseFloat(price.toString()),
+        // type: "DRINK",
+        // avatar_url: "https://www.tibs.org.tw/images/default.jpg",
+      })
+      .finally(() => {
+        setLoadingEdit(false);
+        navigate("/estoque");
+      });
 
-    navigate("/estoque");
+    toast.promise(editItemToast, {
+      pending: "Alterando item...",
+      success: "Item alterado!",
+      error: "Algum erro encontrado...",
+    });
   }
 
   async function back() {
@@ -60,17 +73,29 @@ const NewItemPage: React.FC<NewItemPageProps> = () => {
     }
 
     async function getItem() {
-      const response = await api.get(`/item/admin/get/${item_id}`);
+      setLoadingEdit(true);
+      const getItemToast = api
+        .get(`/item/admin/get/${item_id}`)
+        .then((response) => {
+          if (!response.data) {
+            navigate("/estoque");
+          }
 
-      if (!response.data) {
-        navigate("/");
-      }
+          setName(response.data.name);
+          setPrice(response.data.price);
+          setAvatarUrl(response.data.avatar_url);
+          setStock(response.data.shop_item.amount);
+        })
+        .finally(() => {
+          setLoading(false);
+          setLoadingEdit(false);
+        });
 
-      setName(response.data.name);
-      setPrice(response.data.price);
-      setAvatarUrl(response.data.avatar_url);
-      setStock(response.data.shop_item.amount);
-      setLoading(false);
+      toast.promise(getItemToast, {
+        pending: "Buscando informações...",
+        success: "Busca finalizada!",
+        error: "Algum erro encontrado...",
+      });
     }
 
     getItem();
@@ -82,6 +107,7 @@ const NewItemPage: React.FC<NewItemPageProps> = () => {
       subTitleHeader="Preencha os campos e cadastre um produto."
       textCancelButton="Cancelar cadastro"
       onClickCancelButton={back}
+      loading={loadingEdit}
     >
       {!loading ? (
         <FormStyled>
@@ -133,6 +159,7 @@ const NewItemPage: React.FC<NewItemPageProps> = () => {
           iconName="create"
           iconSize={36}
           onClick={editItem}
+          loading={loadingEdit}
         />
       </ButtonContainer>
     </Container>

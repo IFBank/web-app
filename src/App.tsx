@@ -2,22 +2,17 @@ import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import LoginPage from "./pages/LoginPage";
-import DashboardPage from "./pages/DashboardPage";
+import "react-toastify/dist/ReactToastify.css";
 import {
   PedidosPage,
   NewPedidoPage,
   PedidoConfirmPage,
 } from "./pages/PedidosFlow";
 import { EncomendasPage, EncomendaPedidoPage } from "./pages/EncomendasFlow";
-import {
-  EstoquePage,
-  NewItemPage,
-  EditItemPage,
-  BalancoPage,
-} from "./pages/EstoqueFlow";
-import { AuthContext, AuthProvider } from "./context/AuthContext";
-import { useContext } from "react";
+import { EstoquePage, NewItemPage, EditItemPage } from "./pages/EstoqueFlow";
+import { AuthProvider } from "./context/AuthContext";
 import { RequireAuth } from "./RequiredAuth";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
@@ -100,6 +95,7 @@ function App() {
           }
         />
       </Routes>
+      <ToastContainer />
     </AuthProvider>
   );
 }

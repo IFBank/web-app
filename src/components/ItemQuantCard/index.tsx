@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { ButtonPassPage } from "../../pages/EncomendasFlow/EncomendasPage/styles";
 import {
   ICartItem,
@@ -28,10 +29,11 @@ import {
 interface ItemQuantCardProps {
   isEstoquePage?: boolean;
   item?: IShopItem;
-  addToCart?: (item: ICartItem) => void;
+  addToCart?: (item: ICartItem, limitItemAmount: number) => void;
   editQuant?: boolean;
   deleteItem?: (item_id: string) => void;
   editItem?: (item_id: string) => void;
+  loadingDelete?: boolean;
 }
 
 const ItemQuantCard: React.FC<ItemQuantCardProps> = ({
@@ -41,34 +43,62 @@ const ItemQuantCard: React.FC<ItemQuantCardProps> = ({
   addToCart,
   deleteItem,
   editItem,
+  loadingDelete,
   ...rest
 }) => {
   const [isClicked, setIsClicked] = useState<boolean>(false);
   const [quantValue, setQuantValue] = useState<number>(
     isEstoquePage ? item.amount : 0
   );
+  const [unidQuant, setUnidQuant] = useState(item.amount);
+  const [loadingAmount, setLoadingAmount] = useState(false);
 
   const handleChangeIsClickedState = () => {
     setIsClicked(isEstoquePage && !isClicked);
   };
 
   async function saveAmount() {
-    await api.put(`/shop/admin/stock/${item.item_id}`, {
-      amount: quantValue,
+    if (quantValue === unidQuant) {
+      toast.error("Item já possui essa quantia");
+      return;
+    }
+    setLoadingAmount(true);
+
+    const saveAmountToast = api
+      .put(`/shop/admin/stock/${item.item_id}`, {
+        amount: quantValue,
+      })
+      .then(() => {
+        setUnidQuant(quantValue);
+      })
+      .finally(() => {
+        setLoadingAmount(false);
+      });
+
+    toast.promise(saveAmountToast, {
+      pending: "Salvando alteração...",
+      success: "Alteração salva!",
+      error: "Algum erro encontrado...",
     });
-    window.location.reload();
   }
 
   return (
-    <Container isEstoquePage={false} isClicked={isClicked} {...rest}>
+    <Container
+      style={{
+        opacity: loadingAmount ? 0.5 : 1,
+      }}
+      isEstoquePage={false}
+      isClicked={!loadingAmount && isClicked}
+      {...rest}
+    >
       <ContainerClickStock
-        onClick={handleChangeIsClickedState}
+        onClick={!loadingDelete && !loadingAmount && handleChangeIsClickedState}
         isEstoquePage={isEstoquePage}
-        isClicked={isClicked}
+        isClicked={!loadingAmount && isClicked}
       >
         <ImageInfoContainer>
           <img src={item.item.avatar_url} />
-          <InfoContainer isClicked={isClicked}>
+          <InfoContainer isClicked={!loadingAmount && isClicked}>
             <NameText>{item.item.name}</NameText>
             <ValueText>
               {new Intl.NumberFormat("pt-BR", {
@@ -76,17 +106,25 @@ const ItemQuantCard: React.FC<ItemQuantCardProps> = ({
                 currency: "BRL",
               }).format(item.item.price)}
             </ValueText>
-            <EstoqueText>{item.amount} unid.</EstoqueText>
+            <EstoqueText>{unidQuant} unid.</EstoqueText>
           </InfoContainer>
         </ImageInfoContainer>
       </ContainerClickStock>
 
-      {isClicked && (
-        <DeleteEditContainer>
+      {!loadingAmount && isClicked && (
+        <DeleteEditContainer
+          style={{
+            opacity: loadingDelete ? 0.5 : 1,
+          }}
+        >
           <ButtonPassPage
-            onClick={() => {
-              deleteItem(item.item_id);
-            }}
+            onClick={
+              loadingDelete
+                ? null
+                : () => {
+                    deleteItem(item.item_id);
+                  }
+            }
           >
             <ActionButtonIcon
               bgColor="semantic-red"
@@ -96,9 +134,13 @@ const ItemQuantCard: React.FC<ItemQuantCardProps> = ({
             />
           </ButtonPassPage>
           <ButtonPassPage
-            onClick={() => {
-              editItem(item.item_id);
-            }}
+            onClick={
+              loadingDelete
+                ? null
+                : () => {
+                    editItem(item.item_id);
+                  }
+            }
           >
             <ActionButtonIcon
               bgColor="primary"
@@ -110,14 +152,16 @@ const ItemQuantCard: React.FC<ItemQuantCardProps> = ({
         </DeleteEditContainer>
       )}
 
-      {editQuant ? (
-        <ActionContainer isClicked={isClicked}>
+      {!loadingAmount && editQuant ? (
+        <ActionContainer isClicked={!loadingAmount && isClicked}>
           <QuantContainer>
             <ButtonPassPage
               onClick={() => {
                 if (quantValue <= 0) {
+                  toast.info("Não pode ser menor que 0");
                   return;
                 }
+
                 setQuantValue(quantValue - 1);
               }}
             >
@@ -131,7 +175,8 @@ const ItemQuantCard: React.FC<ItemQuantCardProps> = ({
             <QuantText>{quantValue}</QuantText>
             <ButtonPassPage
               onClick={() => {
-                if (!isEstoquePage && quantValue >= item.amount) {
+                if (!isEstoquePage && quantValue >= unidQuant) {
+                  toast.info(`Limite máximo de unidades`);
                   return;
                 }
 
@@ -151,16 +196,26 @@ const ItemQuantCard: React.FC<ItemQuantCardProps> = ({
               isEstoquePage
                 ? saveAmount
                 : () => {
-                    addToCart({
-                      item_id: item.item_id,
-                      amount: quantValue,
-                      item: {
-                        avatar_url: item.item.avatar_url,
-                        name: item.item.name,
-                        price: item.item.price,
-                        type: item.item.type,
+                    addToCart(
+                      {
+                        item_id: item.item_id,
+                        amount: quantValue,
+                        item: {
+                          avatar_url: item.item.avatar_url,
+                          name: item.item.name,
+                          price: item.item.price,
+                          type: item.item.type,
+                        },
                       },
-                    });
+                      item.amount
+                    );
+                    if (
+                      unidQuant > 0 &&
+                      unidQuant - quantValue <= item.amount
+                    ) {
+                      setQuantValue(0);
+                      setUnidQuant(unidQuant - quantValue);
+                    }
                   }
             }
             bgColor="primary"

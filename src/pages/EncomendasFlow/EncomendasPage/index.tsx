@@ -13,6 +13,7 @@ import {
 import { api } from "../../../services/api";
 import PedidoCard from "../../../components/PedidoPin";
 import moment from "moment-timezone";
+import { toast } from "react-toastify";
 
 interface EncomendasPageProps {}
 
@@ -46,9 +47,25 @@ const EncomendasPage: React.FC<EncomendasPageProps> = () => {
     }
 
     async function getOrders() {
-      const response = await api.get(`/order/all`);
-      setOrders(response.data);
-      setLoading(false);
+      const ordersToast = api
+        .get(`/order/all`)
+        .then((response) => {
+          setOrders(response.data);
+          console.log(response.data);
+
+          if (response.data.length <= 0) {
+            toast.info("Sem encomendas no momento");
+          }
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+
+      toast.promise(ordersToast, {
+        pending: "Buscando pedidos...",
+        success: "Busca finalizada!",
+        error: "Algum erro encontrado...",
+      });
     }
 
     getOrders();
@@ -75,8 +92,6 @@ const EncomendasPage: React.FC<EncomendasPageProps> = () => {
                   if (
                     !order.name.toUpperCase().includes(search.toUpperCase())
                   ) {
-                    console.log(search, order.name);
-
                     return null;
                   }
                 }

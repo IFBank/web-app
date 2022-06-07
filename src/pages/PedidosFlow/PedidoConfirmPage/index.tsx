@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import BackButton from "../../../components/BackButton";
 
@@ -25,6 +26,7 @@ interface PedidoConfirmPageProps {}
 const PedidoConfirmPage: React.FC<PedidoConfirmPageProps> = () => {
   const [confirm, setConfirm] = useState(false);
   const [total, setTotal] = useState(0);
+  const [loadingOrder, setLoadingOrder] = useState(false);
   const { state } = useLocation();
   const navigate = useNavigate();
 
@@ -41,6 +43,7 @@ const PedidoConfirmPage: React.FC<PedidoConfirmPageProps> = () => {
   }
 
   async function confirmOrder() {
+    setLoadingOrder(true);
     const itens: Object = {};
 
     Object.entries(state).map(([key, value]) => {
@@ -50,13 +53,21 @@ const PedidoConfirmPage: React.FC<PedidoConfirmPageProps> = () => {
       Object.assign(itens, itemAssign);
     });
 
-    await api
+    const toastConfirmOrder = api
       .post("/order/admin/create", {
         itens,
       })
+      .then(() => {})
       .finally(() => {
         cancelOrder();
+        setLoadingOrder(false);
       });
+
+    toast.promise(toastConfirmOrder, {
+      pending: "Finalizando pedido...",
+      success: "Pedido finalizado!",
+      error: "Algum erro encontrado...",
+    });
   }
 
   useEffect(() => {
@@ -81,6 +92,7 @@ const PedidoConfirmPage: React.FC<PedidoConfirmPageProps> = () => {
       subTitleHeader="Crie aqui os pedidos requisitados pessoalmente"
       textCancelButton="Cancelar pedido"
       onClickCancelButton={cancelOrder}
+      loading={loadingOrder}
     >
       <BackButton onBack={backPage} />
 
@@ -105,11 +117,13 @@ const PedidoConfirmPage: React.FC<PedidoConfirmPageProps> = () => {
             iconName="check_circle_outline"
             iconSize={30}
             onClick={changeConfirmOrder}
+            loading={loadingOrder}
           />
         ) : (
           <ConfirmComponent
             onCancel={changeConfirmOrder}
             onConfirm={confirmOrder}
+            loading={loadingOrder}
           />
         )}
       </PedidoInfoContainer>

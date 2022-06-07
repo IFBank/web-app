@@ -14,6 +14,7 @@ import {
 
 import logo from "../../assets/logo.png";
 import { AuthContext } from "../../context/AuthContext";
+import { toast } from "react-toastify";
 
 interface LoginPageProps {}
 
@@ -54,11 +55,13 @@ const LoginPage: React.FC<LoginPageProps> = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { signIn } = useContext(AuthContext);
+  const [loadingLogin, setLoadingLogin] = useState(false);
 
   async function submit() {
-    await signIn({ email, password });
-    // setEmail("");
-    // setPassword("");
+    setLoadingLogin(true);
+    await signIn({ email, password, setLoadingLogin });
+    setEmail("");
+    setPassword("");
   }
 
   return (
@@ -89,7 +92,12 @@ const LoginPage: React.FC<LoginPageProps> = () => {
             onChange={setPassword}
           />
         </form>
-        <GenericButton borderRadius={8} text="Entre" onClick={submit} />
+        <GenericButton
+          loading={loadingLogin}
+          borderRadius={8}
+          text="Logar"
+          onClick={submit}
+        />
       </FormBox>
     </Container>
   );
