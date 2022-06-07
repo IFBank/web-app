@@ -34,6 +34,7 @@ export const OutrosInputs = styled.div`
 export const InputDuplo = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: flex-end;
 
   > * {
     flex-basis: 1px;

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import GenericInput from "../../../components/GenericInput";
 import GenericButton from "../../../components/GenericButton";
+import TypeItem from "../../../components/TypeItem";
 
 import {
   Container,
@@ -98,15 +99,7 @@ const NewItemPage: React.FC<NewItemPageProps> = () => {
               textSide="R$"
               setTextInput={setPrice}
             />
-            <GenericInput
-              textLabel="Estoque"
-              name="quant"
-              inputType="number"
-              placeholder="0"
-              textSide="unid."
-              sideOnRight={false}
-              setTextInput={setStock}
-            />
+            <TypeItem />
           </InputDuplo>
         </OutrosInputs>
       </FormStyled>
