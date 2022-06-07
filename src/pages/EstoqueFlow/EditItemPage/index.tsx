@@ -27,6 +27,30 @@ const NewItemPage: React.FC<NewItemPageProps> = () => {
 
   const navigate = useNavigate();
 
+  async function editItem() {
+    if (name.trim() === "") {
+      return;
+    }
+
+    if (price <= 0.25) {
+      return;
+    }
+
+    if (stock < 0) {
+      return;
+    }
+
+    await api.put(`/item/admin/edit/${item_id}`, {
+      name,
+      price: parseFloat(price.toString()),
+      // type: "DRINK",
+      // avatar_url:
+      //   "https://www.zappas.com.br/wp-content/uploads/2020/04/Suco-de-Laranja-1.jpg",
+    });
+
+    navigate("/estoque");
+  }
+
   async function back() {
     navigate("/estoque");
   }
@@ -99,6 +123,7 @@ const NewItemPage: React.FC<NewItemPageProps> = () => {
           borderRadius={30}
           iconName="create"
           iconSize={36}
+          onClick={editItem}
         />
       </ButtonContainer>
     </Container>
