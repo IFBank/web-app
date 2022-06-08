@@ -22,7 +22,7 @@ export const LogoContainer = styled.div`
   height: 100%;
 
   > img {
-    width: 70%;
+    width: 100%;
   }
 `;
 
@@ -71,8 +71,10 @@ export const InputContainer = styled.div`
     font-size: 18px;
     border: none;
     height: 100%;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
     box-shadow: inset 0px 2px 2px 2px rgba(0, 0, 0, 0.25);
-    padding: 5px;
+    padding: 8px;
   }
 
   > div {

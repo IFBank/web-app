@@ -58,6 +58,16 @@ const LoginPage: React.FC<LoginPageProps> = () => {
   const [loadingLogin, setLoadingLogin] = useState(false);
 
   async function submit() {
+    if (email.trim().length === 0) {
+      toast.error("Preencher email!");
+      return;
+    }
+
+    if (password.trim().length === 0) {
+      toast.error("Preencher senha!");
+      return;
+    }
+
     setLoadingLogin(true);
     await signIn({ email, password, setLoadingLogin });
     setEmail("");
@@ -68,8 +78,6 @@ const LoginPage: React.FC<LoginPageProps> = () => {
     <Container>
       <LogoContainer>
         <img src={logo} alt="ifbank logo" />
-
-        <TitleApp>Painel de Administração</TitleApp>
       </LogoContainer>
 
       <FormBox>

@@ -55,8 +55,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }: SignInCredentials) {
     try {
       const signInToast = api
-        .post("/user/authenticate", {
-          //CRIAR ROTA PARA ADMIN SE LOGAR E USAR AQUI
+        .post("/user/admin/authenticate", {
           email,
           password,
         })
@@ -77,7 +76,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       toast.promise(signInToast, {
         pending: "Tentando logar...",
         success: "Logado com sucesso!",
-        error: "Algum erro encontrado...",
+        error: "Email e/ou senha está incorreto",
       });
     } catch (err) {}
   }
