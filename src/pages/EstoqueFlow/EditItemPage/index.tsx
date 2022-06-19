@@ -103,7 +103,7 @@ const NewItemPage: React.FC<NewItemPageProps> = () => {
     <Container
       titleHeader="Cadastro de mercadoria"
       subTitleHeader="Preencha os campos e cadastre um produto."
-      textCancelButton="Cancelar cadastro"
+      textCancelButton="Cancelar edição"
       onClickCancelButton={back}
       loading={loadingEdit}
     >
